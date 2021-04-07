@@ -1,23 +1,57 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Lifes from '../views/Lifes.vue'
+import LifeDetail from '../views/LifeDetail.vue'
+import SignDetail from '../views/SignDetail.vue'
+import PersonalDetail from '../views/PersonalDetail.vue'
+import LifeEdit from "../views/LifeEdit";
+import Channel from "../views/Channel";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'index',
+    redirect: {name: "Lifes"}
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/lifes',
+    name: 'Lifes',
+    component: Lifes
+  },
+  {
+    path: '/lifes/:lifeId',
+    name: 'LifeDetail',
+    component: LifeDetail
+  },
+  {
+    path: '/signDetail',
+    name: 'SignDetail',
+    component: SignDetail
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/lifes/:id/edit',
+    name: 'LifeEdit',
+    component: LifeEdit
+  },
+  {
+    path: '/personal',
+    name: 'PersonalDetail',
+    component: PersonalDetail
+  },
+  {
+    path: '/channel',
+    name: 'Channel',
+    component: Channel
   }
+
 ]
 
 const router = new VueRouter({
