@@ -44,7 +44,25 @@ const routes = [
   {
     path: '/personal',
     name: 'PersonalDetail',
-    component: PersonalDetail
+    component: PersonalDetail,
+    children:[
+      {//我的签到记录
+        path:'/sign',
+        name:'Sign',
+        component: ()=> import('@/components/Sign')
+      },
+      {//我的瞬间
+        path:'/moment',
+        name:'Moment',
+        component: ()=> import('@/components/Moment')
+
+      },
+      {//用户个人资料
+        path:'/userData',
+        name:'UserData',
+        component: ()=> import('@/components/UserData')
+      }
+    ]
   },
   {
     path: '/channel',

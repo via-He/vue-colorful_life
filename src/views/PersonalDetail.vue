@@ -16,69 +16,24 @@
 
                             <!-- Content -->
                             <div id="content" class="8u skel-cell-important">
-                                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                                <el-menu :default-active="$route.path" router class="el-menu-demo" mode="horizontal"
+                                         @select="handleSelect">
 
-                                    <el-submenu index="1">
-                                        <template slot="title" >我的发布</template>
-                                        <el-menu-item index="1-1">我的瞬间</el-menu-item>
-                                        <el-menu-item index="1-2">我的签到</el-menu-item>
+                                        <el-menu-item index="/sign">我的签到</el-menu-item>
+                                        <el-menu-item index="/moment">我的瞬间</el-menu-item>
 
-                                    </el-submenu>
-                                    <el-menu-item index="2">个人资料</el-menu-item>
+                                    <el-menu-item index="/userData">个人资料</el-menu-item>
                                     <el-menu-item
                                             index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
                                 </el-menu>
 
                                 <div class="line"></div>
 
-                                <div class="block">
 
-                                    <el-timeline>
-                                        <el-timeline-item :timestamp="life.updateTime" placement="top"
-                                                          v-for="life in
-                                            lifes" :key="id" >
-                                            <el-card>
-                                                <h4>标题 ：{{life.title}}</h4>
-                                                <i class="el-icon-delete" v-on:click="deleteSign(life.id)"></i>
+                                <el-main>
+                                    <router-view/>
+                                </el-main>
 
-                                                <hr>
-                                                <p>内容 ：
-                                                    <!--<router-link
-                                                            :to="{name:'SignDetail',params: {signId:life.id}}">
-                                                        {{life.content}}
-                                                    </router-link>-->
-                                                    {{life.content}}
-                                                </p>
-                                                <div class="demo-image__preview">
-                                                    <el-image
-                                                            style="width: 100px; height: 100px"
-                                                            :src="url"
-                                                            :preview-src-list="srcList">
-                                                    </el-image>
-                                                </div>
-                                                <!--标签-->
-                                                <el-tag closable>
-                                                    {{life.channelName}}
-                                                </el-tag>
-
-
-                                            </el-card>
-                                        </el-timeline-item>
-
-                                    </el-timeline>
-
-                                </div>
-                                <div class="block">
-                                    <el-pagination class="mpage"
-                                                   layout="prev, pager, next"
-                                                   :current-page="pageNum"
-                                                   :page-size="pageSize"
-                                                   :total="total"
-                                                   @current-change="page"
-                                                   @size-change="page"
-                                    >
-                                    </el-pagination>
-                                </div>
                             </div>
                             <!--SideBar-->
                             <el-aside id="sidebar" class="4u">
@@ -139,79 +94,26 @@
         data() {
             return {
                 activeIndex: '1',
-                activeIndex2: '1',
-                lifes:'',
-                pageNum:1,
-                total:0,
-                pageSize:5,
-
-                url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-                srcList: [
-                    'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-                    'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-                ]
-
+                activeIndex2: '2',
 
             };
         },
-        methods: {
+        methods:{
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
-            },
-
-            page(pageNum,pageSize){
-                console.log("分页查询")
-                console.log(sessionStorage.getItem("user"))
-                const _this = this
-                _this.$axios.get("/sign/listSign",
-                    {params:{pageNum,pageSize }}).then(res =>{
-                    console.log(res)
-                    console.log("photo集合")
-                    console.log(res.data.data.list)
-                    _this.lifes = res.data.data.list
-                    _this.pageNum = res.data.data.pageNum
-                    _this.pageSize = res.data.data.pageSize
-                    _this.total= res.data.data.total
-
-                })
-            },
-            deleteSign(signId){
-                const _this = this
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    _this.$axios.get("/sign/delete?signId=" + signId).then(res =>{
-                        this.$alert('删除成功', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                _this.reload()
-                            }
-                        });
-                    })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-
             }
-
-        },
-        created() {
-            this.page(1,5)
         }
+
 
     }
 </script>
 
 <style scoped>
 
-    .i #el-icon-delete{
-        float: right;
+    .el-menu-item{
+        padding: 10px 10px 10px ;
     }
+
     #header {
         height: 600px !important;
         position: relative;

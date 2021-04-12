@@ -16,14 +16,18 @@
                             <!-- Content -->
                             <div id="content" class="8u skel-cell-important">
                                 <section>
-
+                                    <header>
+                                        <h2>今日签到</h2>
+                                        <span class="byline">Integer sit amet pede vel arcu aliquet pretium</span>
+                                    </header>
                                     <div style="margin: 20px 0;"></div>
+
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                                         <el-form-item label="标题" prop="title">
                                             <el-input v-model="ruleForm.title"></el-input>
                                         </el-form-item>
 
-                                        <el-form-item label="内容" prop="description">
+                                        <el-form-item label="内容" prop="content">
                                             <el-input type="textarea" v-model="ruleForm.content"></el-input>
                                         </el-form-item>
 
@@ -192,6 +196,9 @@
     .mpage{
         margin: 0 auto;
         text-align: center;
+    }
+    #content >>> .el-form .el-textarea__inner{
+        line-height: 7 !important;
     }
     #header {
         height: 600px !important;
