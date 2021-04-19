@@ -71,12 +71,11 @@
             }
         },
         methods: {
-
-
             page(pageNum,pageSize){
-                console.log("分页查询")
+                console.log("签到内容分页查询")
                 console.log(sessionStorage.getItem("user"))
                 const _this = this
+                pageSize = _this.pageSize
                 _this.$axios.get("/sign/listSign",
                     {params:{pageNum,pageSize }}).then(res =>{
                     console.log(res)

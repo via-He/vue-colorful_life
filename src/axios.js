@@ -13,9 +13,9 @@ axios.interceptors.request.use(config =>{
 
 axios.interceptors.response.use(response =>{
     let res = response.data;
-    console.log("2222222");
-    console.log(res);
-    console.log("2222222");
+    console.log("============");
+    console.log('全局数据：',res);
+    console.log("===========");
 
 
     if (res.status === 10000){

@@ -46,6 +46,11 @@ const routes = [
     name: 'PersonalDetail',
     component: PersonalDetail,
     children:[
+      {//默认我的签到记录
+        path:'/',
+        name:'Sign',
+        component: ()=> import('@/components/Sign')
+      },
       {//我的签到记录
         path:'/sign',
         name:'Sign',
@@ -67,9 +72,8 @@ const routes = [
   {
     path: '/channel',
     name: 'Channel',
-    component: Channel
+    component: Channel,
   }
-
 ]
 
 const router = new VueRouter({

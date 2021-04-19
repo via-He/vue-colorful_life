@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo:JSON.parse(sessionStorage.getItem("user"))
+    userInfo:JSON.parse(sessionStorage.getItem("user")) //对象
   },
   mutations: {
     //setter

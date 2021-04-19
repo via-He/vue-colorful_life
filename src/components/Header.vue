@@ -34,18 +34,28 @@
                 user:{
                     userName:'bbbb',
                     headerImg:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-                }
+                },
+                hasLogin:false,
             }
         },
         methods:{
             logout(){
+                const  _this = this
                 this.$axios.post("/user/logout").then(res =>{
+                    _this.$store.commit("REMOVE_USERINFO")
                     this.$router.push("/login")
                 })
 
             }
         },
-        hasLogin:false
+        created() {
+            if (this.$store.getters.getUser.userName){
+                this.user.userName = this.$store.getters.getUser.userName
+                this.user.userName = this.$store.getters.getUser.headerImg
+                this.hasLogin = true
+            }
+            console.log('当前用户',this.$store.getters.getUser.userName)
+        }
 
     }
 </script>

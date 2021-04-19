@@ -379,7 +379,7 @@ ul.style .first {
     color: rgba(255,255,255,.3);
 }
 .row > * {
-    padding: 50px 0 0 50px;
+    padding: 60px 0 0 90px;
     float: left;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -535,7 +535,7 @@ ul.style .first {
 }
 
 .\34 u {
-    width: 33.3333333333%
+    width: 33.3333333333% !important
 }
 
 .\33 u {
