@@ -27,12 +27,21 @@
             <ul class="style">
                 <li v-for="sign in users">
                     <p class="posted"><span>{{sign.userName}}</span>累计签到天数：{{sign.signNum}}</p>
-                    <img src="../images/pic04.jpg" alt=""/>
+                    <img :src="'http://localhost:8880' + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
                     <span>{{sign.userName}}</span>
                     <p class="text">{{sign.signature}}</p>
                 </li>
-
             </ul>
+            <div class="block">
+                <el-pagination class="mpage"
+                               layout="prev, pager, next"
+                               :current-page="pageNum"
+                               :page-size="pageSize"
+                               :total="total"
+                               @current-change="signOrder"
+                >
+                </el-pagination>
+            </div>
         </section>
     </div>
 </template>
@@ -44,6 +53,9 @@
             return {
                 value: new Date(),
                 personSignNum: '',
+                pageNum:1,
+                total:0,
+                pageSize:4,
                 users: '',
                 searchinput:''
 
@@ -57,18 +69,23 @@
                     _this.personSignNum = res.data.data
                 })
             },
-            signOrder() {
+            signOrder(pageNum,pageSize) {
                 const _this = this
-                _this.$axios.get("/signOrder").then(res => {
+                pageSize = _this.pageSize
+                _this.$axios.get("/signOrder",{params:{pageNum,pageSize }}).then(res => {
                     console.log('签到排行榜：', res)
-                    _this.users = res.data.data
+                    _this.users = res.data.data.list
+                    console.log(_this.users)
+                    _this.pageNum = res.data.data.pageNum
+                    _this.pageSize = res.data.data.pageSize
+                    _this.total= res.data.data.total
 
                 })
             }
         },
         created() {
             this.getSignNum();
-            this.signOrder()
+            this.signOrder(1,4)
         }
     }
 </script>

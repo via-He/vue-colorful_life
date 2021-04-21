@@ -12,16 +12,12 @@
 
                     <hr>
                     <p>内容 ：
-                        <!--<router-link
-                                :to="{name:'SignDetail',params: {signId:life.id}}">
-                            {{life.content}}
-                        </router-link>-->
                         {{life.content}}
                     </p>
                     <div class="demo-image__preview">
-                        <el-image
-                                style="width: 100px; height: 100px"
-                                :src="url"
+                        <el-image v-show="!(life.mediaUrl == '')"
+                                class="img full"
+                                :src="'http://localhost:8880' + life.mediaUrl"
                                 :preview-src-list="srcList">
                         </el-image>
                     </div>
@@ -29,8 +25,6 @@
                     <el-tag closable>
                         {{life.channelName}}
                     </el-tag>
-
-
                 </el-card>
             </el-timeline-item>
 

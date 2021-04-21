@@ -22,7 +22,8 @@
                                     </header>
                                     <div style="margin: 20px 0;"></div>
 
-                                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
+                                             class="demo-ruleForm">
                                         <el-form-item label="标题" prop="title">
                                             <el-input v-model="ruleForm.title"></el-input>
                                         </el-form-item>
@@ -46,16 +47,22 @@
 
                                         <el-form-item>
                                             <el-upload
-                                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                                    action="http://localhost:8880/upload"
                                                     list-type="picture-card"
-                                                    :on-preview="handlePictureCardPreview"
-                                                    :on-remove="handleRemove">
-                                                <i class="el-icon-plus"></i>
+                                                    :auto-upload="true">
+                                                <i slot="default" class="el-icon-plus"></i>
                                                 <div slot="file" slot-scope="{file}">
-                                                    <img
-                                                            class="el-upload-list__item-thumbnail"
-                                                            :src="file.url" alt=""
-                                                    >
+                                                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
+<!--                                                    <video controls="controls" :src="file.url" alt=""></video>-->
+                                                    <span class="el-upload-list__item-actions">
+                                                        <span class="el-upload-list__item-preview"
+                                                              @click="handlePictureCardPreview(file)">
+                                                          <i class="el-icon-zoom-in"></i>
+                                                        </span>
+                                                        <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
+                                                          <i class="el-icon-delete"></i>
+                                                        </span>
+                                                  </span>
                                                 </div>
                                             </el-upload>
                                             <el-dialog :visible.sync="dialogVisible">
@@ -99,26 +106,28 @@
     import Aside from "../components/Aside";
     import Bottom from "../components/Bottom";
     import qs from 'qs'
+
     export default {
         name: "SignDetail",
         components: {Bottom, Aside, Header},
-        data(){
+        data() {
             return {
                 dialogImageUrl: '',
                 dialogVisible: false,
+                disabled: false,
                 ruleForm: {
                     title: '',
                     content: '',
-                    channelName:''
+                    channelName: ''
                 },
                 rules: {
                     title: [
-                        { required: true, message: '请输入标题', trigger: 'blur' },
-                        { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
+                        {required: true, message: '请输入标题', trigger: 'blur'},
+                        {min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur'}
                     ],
 
                     content: [
-                        { trequired: true, message: '请输入内容', trigger: 'blur' },
+                        {trequired: true, message: '请输入内容', trigger: 'blur'},
                         {min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur'}
                     ]
                 },
@@ -137,7 +146,7 @@
                 }, {
                     value: '选项5',
                     label: '旅游'
-                },{
+                }, {
                     value: '选项6',
                     label: '美食'
                 }],
@@ -148,16 +157,18 @@
             goBack() {
                 console.log('go back');
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            handleRemove(file) {
+                console.log(file);
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
+                console.log(this.dialogImageUrl,'ddfffffffffffff')
+
             },
-            uploadMedia(dialogImageUrl){
+            uploadMedia(file) {
                 const _this = this
-                _this.$axios.post('/upload',dialogImageUrl).then(res =>{
+                _this.$axios.post('/upload', file).then(res => {
                     console.log(res)
                 })
             },
@@ -183,7 +194,7 @@
                     }
                 });
             },
-            resetForm(formName){
+            resetForm(formName) {
                 this.$refs[formName].resetFields();
             }
         },
@@ -193,13 +204,15 @@
 <style scoped>
 
     /*******header不能全局修饰******/
-    .mpage{
+    .mpage {
         margin: 0 auto;
         text-align: center;
     }
-    #content >>> .el-form .el-textarea__inner{
+
+    #content >>> .el-form .el-textarea__inner {
         line-height: 7 !important;
     }
+
     #header {
         height: 600px !important;
         position: relative;
@@ -209,9 +222,11 @@
         text-align: center;
         vertical-align: baseline;
     }
-    .el-container #header{
-        padding: 15em 0em ;
+
+    .el-container #header {
+        padding: 15em 0em;
     }
+
     .el-footer {
         position: relative;
         background: #1d1d1d;
@@ -258,7 +273,6 @@
     }
 
 
-
     article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
         display: block;
     }
@@ -296,7 +310,6 @@
     /* Grid */
 
 
-
     #logo {
         margin-bottom: 3em;
     }
@@ -328,10 +341,10 @@
     /* Nav                                                                           */
     /*********************************************************************************/
 
-    #nav ul
-    {
+    #nav ul {
         margin: 0;
     }
+
     #nav > ul > li {
         display: inline-block;
     }
@@ -354,7 +367,6 @@
     }
 
 
-
     #nav > ul > li > a:hover {
         color: #FFF;
     }
@@ -370,7 +382,6 @@
     #nav > ul > li > ul {
         display: none;
     }
-
 
 
     #content header {
@@ -390,7 +401,6 @@
         padding-bottom: 2em;
         font-size: 1.4em;
     }
-
 
 
     /* Buttons */
@@ -438,8 +448,8 @@
         text-decoration: none;
         color: rgba(255, 255, 255, .3);
     }
-    #sidebar h2
-    {
+
+    #sidebar h2 {
         display: block;
         padding-bottom: 2em;
         font-size: 1.4em;

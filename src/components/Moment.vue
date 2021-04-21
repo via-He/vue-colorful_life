@@ -7,7 +7,7 @@
                     <div class="line"></div>
                     <div class="demo-image__preview">
                         <a href="#" class="image full">
-                            <img src="../images/pic01.jpg" alt=""/>
+                            <el-image :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
                         </a>
 
                     </div>
@@ -123,6 +123,9 @@
                 _this.$axios.get("/create/pink", createId).then(res => {
                     console.log(res, "点赞结果")
                 })
+            },
+            comment(){
+
             },
             deleteMoment(createItemId) {
                 const _this = this

@@ -1,7 +1,10 @@
 <template>
     <div class="mcontant">
         <div class="block">
-            <el-avatar :size="50" :src="user.headerImg"/>
+            <a href="#" >
+                <el-avatar fit="fill"  :size="70" style="height: 70px; width: 70px" :src="'http://localhost:8880' + user.headerImg"/>
+            </a>
+
             <div>{{user.userName}}</div>
         </div>
         <div>
@@ -51,10 +54,11 @@
         created() {
             if (this.$store.getters.getUser.userName){
                 this.user.userName = this.$store.getters.getUser.userName
-                this.user.userName = this.$store.getters.getUser.headerImg
+                this.user.headerImg = this.$store.getters.getUser.headImage
                 this.hasLogin = true
             }
             console.log('当前用户',this.$store.getters.getUser.userName)
+            console.log('当前头像',this.user.headerImg)
         }
 
     }

@@ -29,7 +29,6 @@
 
                                 <div class="line"></div>
 
-
                                 <el-main>
                                     <router-view/>
                                 </el-main>

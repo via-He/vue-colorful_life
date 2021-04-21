@@ -17,7 +17,6 @@
                             <div id="content" class="8u skel-cell-important">
                                 <section>
                                     <header>
-                                        <h2>精彩推荐</h2>
                                     </header>
 
 
@@ -36,15 +35,16 @@
                                                         <el-timeline-item :timestamp="channel.signUpdateTime"
                                                                           placement="top">
                                                             <el-card>
-                                                                <h4>标题 ：{{channel.title}}</h4>
+                                                                <h4>签到标题 ：{{channel.title}}</h4>
                                                                 <hr>
                                                                 <p>内容 ：
                                                                     {{channel.signContent}}
                                                                 </p>
                                                                 <div class="demo-image__preview">
-                                                                    <el-image
-                                                                            style="width: 100px; height: 100px"
-                                                                            src="../images/4cc13dd1-6a60-4499-aedb-84399b6ed840.jpg">
+                                                                    <el-image v-show="!(channel.signMediaUrl === '')"
+                                                                              class="img full"
+                                                                              :src="'http://localhost:8880' + channel.signMediaUrl"
+                                                                              :preview-src-list="srcList">
                                                                     </el-image>
                                                                 </div>
                                                             </el-card>
@@ -60,7 +60,7 @@
                                                                 <div class="line"></div>
                                                                 <div class="demo-image__preview">
                                                                     <a href="#" class="image full">
-                                                                        <img src="../images/pic01.jpg" alt=""/>
+                                                                        <el-image v-show="!(channel.createMediaUrl === '')" :src="'http://localhost:8880' + channel.createMediaUrl" alt=""/>
                                                                     </a>
 
                                                                 </div>
