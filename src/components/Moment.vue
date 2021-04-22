@@ -166,29 +166,6 @@
         display:flex;
         justify-content: flex-start;
     }
-    .button {
-        position: relative;
-        display: inline-block;
-        margin-top: 2em;
-        padding: 0.90em 1.5em;
-        background: #e95d3c;
-        border-radius: 40px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 1.1em;
-        color: #FFF;
-        -moz-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
-        -webkit-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
-        -o-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
-        -ms-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
-        transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
-        cursor: pointer;
-    }
-
-    .button:hover {
-        background: #de3d27;
-        color: #FFF !important;
-    }
 
     .text {
         font-size: 14px;
@@ -196,10 +173,6 @@
 
     .item {
         padding: 18px 0;
-    }
-
-    .el-icon-pink {
-        background: url("../assets/pink.png") no-repeat;
     }
 
     .box-card {

@@ -2,11 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Lifes from '../views/Lifes.vue'
-import LifeDetail from '../views/LifeDetail.vue'
-import SignDetail from '../views/SignDetail.vue'
+import Admin from '../views/admin/Admin.vue'
+import Notice from '../views/Notice.vue'
+import SignEdit from '../views/SignEdit.vue'
 import PersonalDetail from '../views/PersonalDetail.vue'
-import LifeEdit from "../views/LifeEdit";
+import MomentEdit from "../views/MomentEdit";
 import Channel from "../views/Channel";
+import CreateAdmin from "../views/admin/CreateAdmin";
+import User from "../views/admin/User";
 
 Vue.use(VueRouter)
 
@@ -22,14 +25,19 @@ const routes = [
     component: Lifes
   },
   {
-    path: '/lifes/:lifeId',
-    name: 'LifeDetail',
-    component: LifeDetail
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
   },
   {
-    path: '/signDetail',
-    name: 'SignDetail',
-    component: SignDetail
+    path: '/notice',
+    name: 'Notice',
+    component: Notice
+  },
+  {
+    path: '/signEdit',
+    name: 'SignEdit',
+    component: SignEdit
   },
   {
     path: '/login',
@@ -38,8 +46,18 @@ const routes = [
   },
   {
     path: '/lifes/:id/edit',
-    name: 'LifeEdit',
-    component: LifeEdit
+    name: 'MomentEdit',
+    component: MomentEdit
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: User
+  },
+  {
+    path: '/createAdmin',
+    name: 'CreateAdmin',
+    component: CreateAdmin
   },
   {
     path: '/personal',

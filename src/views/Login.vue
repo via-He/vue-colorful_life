@@ -7,11 +7,14 @@
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input type="password" v-model="ruleForm.password"></el-input>
+                    <el-input type="password" v-model="ruleForm.password" show-password></el-input>
                 </el-form-item>
 <!--                <p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>-->
                 <el-form-item>
                     <el-button class="submit" @click="submitForm('ruleForm')">登录</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="button" class="fb-btn" @click="submitAdminForm('ruleForm')"><span>管理员登录</span></el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -37,7 +40,7 @@
                         <el-input v-model="ruleForm.userName"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
-                        <el-input type="password" v-model="ruleForm.password"></el-input>
+                        <el-input type="password" v-model="ruleForm.password" show-password></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button class="submit" @click="registerForm('ruleForm')">注册</el-button>
@@ -55,7 +58,7 @@
         data() {
             return {
                 ruleForm: {
-                    userName: 'user22',
+                    userName: 'admin',
                     password: '12345678'
                 },
                 rules: {
@@ -82,10 +85,24 @@
                         const _this = this
                         this.$axios.post("/user/login", qs.stringify(this.ruleForm)).then(res => {
                             const userInfo = res.data.data
-                            console.log(res)
                             console.log(userInfo)
                             _this.$store.commit("SET_USERINFO", userInfo)
                             this.$router.push("/lifes")
+                        })
+                    }
+
+                });
+            },
+            submitAdminForm(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        const _this = this
+                        this.$axios.post("/user/adminLogin", qs.stringify(this.ruleForm)).then(res => {
+                            const userInfo = res.data.data
+                            console.log(res)
+                            _this.$store.commit("SET_USERINFO", userInfo)
+                            console.log('管理员登录名', _this.$store.getters.getUser.userName)
+                            this.$router.push("/admin")
                         })
                     }
 
@@ -123,7 +140,14 @@
         margin: -300px 0 0 -450px;
         background: #fff;
     }
-
+    .fb-btn {
+        border: 2px solid #d3dae9;
+        color: #8fa1c7;
+    }
+    .fb-btn span {
+        font-weight: bold;
+        color: #455a81;
+    }
     .font{
         background: linear-gradient(to right, #E93E2A, blue, #43D3B4);
         -webkit-background-clip: text;

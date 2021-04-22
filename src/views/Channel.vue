@@ -2,11 +2,8 @@
     <div>
         <el-container>
             <!--头部-->
-            <el-header id="header">
-                <div class="container">
+
                     <Header></Header>
-                </div>
-            </el-header>
             <!--主栏-->
             <el-container class="container">
                 <el-main id="main">
@@ -226,21 +223,6 @@
         margin: 0 auto;
         text-align: center;
     }
-
-    #header {
-        height: 600px !important;
-        position: relative;
-        background: #2a2f27 url(../images/banner.jpg) no-repeat;
-        background-size: cover;
-        padding: 5em 0em;
-        text-align: center;
-        vertical-align: baseline;
-    }
-
-    .el-container #header {
-        padding: 15em 0em;
-    }
-
     .el-footer {
         position: relative;
         background: #1d1d1d;

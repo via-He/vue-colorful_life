@@ -2,11 +2,8 @@
     <div>
         <el-container>
             <!--头部-->
-            <el-header id="header">
-                <div class="container">
                     <Header></Header>
-                </div>
-            </el-header>
+
             <!--主栏-->
             <el-container class="container">
                 <el-main id="main">
@@ -61,11 +58,13 @@
     import Header from "../components/Header";
     import Aside from "../components/Aside";
     import Bottom from "../components/Bottom";
+    import AdminHeader from "../components/admin/AdminHeader";
     export default {
         name: "Lifes",
-        components: {Bottom, Aside, Header},
+        components: {AdminHeader, Bottom, Aside, Header},
         data(){
             return{
+                role:'',
                 lifes:{},
                 pageNum:1,
                 total:0,
@@ -87,10 +86,16 @@
                     _this.pageNum = res.data.data.pageSize
                     _this.total= res.data.data.total
                 })
-            }
+            },
+            getUserRole(){
+                const _this = this
+                _this.role = this.$store.getters.getUser.role
+                console.log('用户角色为：', _this.role)
+            },
         },
         created() {
             this.page(1,5)
+            this.getUserRole()
         }
 
     }
@@ -100,23 +105,11 @@
 
 <style scoped>
 
-/*******header不能全局修饰******/
     .mpage{
         margin: 0 auto;
         text-align: center;
     }
-    #header {
-        height: 600px !important;
-        position: relative;
-        background: #2a2f27 url(../images/banner.jpg) no-repeat;
-        background-size: cover;
-        padding: 5em 0em;
-        text-align: center;
-        vertical-align: baseline;
-    }
-    .el-container #header{
-        padding: 15em 0em ;
-    }
+
     .el-footer {
         position: relative;
         background: #1d1d1d;
@@ -349,5 +342,25 @@
         padding-bottom: 2em;
         font-size: 1.4em;
     }
+#copyright {
+    position: relative;
+    padding: 3em 0em;
+    letter-spacing: 1px;
+    text-align: center;
+    color: rgba(255, 255, 255, .2);
+}
 
+#copyright .container {
+}
+
+#copyright a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, .3);
+}
+#sidebar h2
+{
+    display: block;
+    padding-bottom: 2em;
+    font-size: 1.4em;
+}
 </style>

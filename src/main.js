@@ -7,6 +7,9 @@ import axios from 'axios'
 import "./assets/css/global.css"
 import "element-ui/lib/theme-chalk/index.css"
 import "./axios"
+import "../theme/index.css"
+import "./assets/icon/iconfont.css"
+import "./assets/icon/iconfont"
 // axios.defaults.withCredentials = true
 import qs from 'qs'
 Vue.prototype.$qs = qs

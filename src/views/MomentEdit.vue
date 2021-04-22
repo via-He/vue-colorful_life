@@ -1,12 +1,12 @@
 <template>
     <div>
-        lifeDetail
+        lifeEdit
     </div>
 </template>
 
 <script>
     export default {
-        name: "LifeDetail"
+        name: "MomentEdit"
     }
 </script>
 

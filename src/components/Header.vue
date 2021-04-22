@@ -1,4 +1,6 @@
 <template>
+    <el-header id="header" >
+        <div class="container">
     <div class="mcontant">
         <div class="block">
             <a href="#" >
@@ -19,6 +21,7 @@
                     <li class="active"><a href="/lifes">首页</a></li>
                     <li><a href="/channel">频道</a></li>
                     <li><a href="/personal">我的博客</a></li>
+                    <li><a href="/notice">公告</a></li>
 
                     <li><el-link v-show="!hasLogin" href="/login">登录</el-link></li>
                     <li><el-link v-show="hasLogin" @click="logout">退出</el-link></li>
@@ -27,6 +30,8 @@
             </div>
         </div>
     </div>
+        </div>
+    </el-header>
 </template>
 
 <script>
@@ -36,7 +41,7 @@
             return{
                 user:{
                     userName:'bbbb',
-                    headerImg:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+                    headerImg:'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
                 },
                 hasLogin:false,
             }
@@ -70,6 +75,18 @@
         margin: 0 auto;
         text-align: center;
 
+    }
+    #header {
+        height: 600px !important;
+        position: relative;
+        background: #2a2f27 url(../images/banner.jpg) no-repeat;
+        background-size: cover;
+        padding: 5em 0em;
+        text-align: center;
+        vertical-align: baseline;
+    }
+    .el-container #header{
+        padding: 15em 0em ;
     }
 
     /*********************************************************************************/

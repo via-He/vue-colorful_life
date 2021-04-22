@@ -1,12 +1,10 @@
 <template>
-    <div>
-        lifeEdit
-    </div>
+    
 </template>
 
 <script>
     export default {
-        name: "LifeEdit"
+        name: "Recommendation"
     }
 </script>
 
