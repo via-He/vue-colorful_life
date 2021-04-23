@@ -17,7 +17,7 @@
                         <router-link :to="{path:'signEdit'}">签到</router-link>
                     </el-button>
                 </header>
-                <span>我已累计签到&emsp;&emsp;<span style="color: #29ac9b;font-family: Calibri;font-size: larger">{{personSignNum}}</span>&emsp;&emsp;天</span>
+                <span>我已累计签到&emsp;&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: 30px">{{personSignNum}}</span>&emsp;&emsp;天</span>
             </el-card>
             <div id="cal">
                 <el-calendar v-model="value">
@@ -26,7 +26,7 @@
             <h2>签到排行榜</h2>
             <ul class="style">
                 <li v-for="sign in users">
-                    <p class="posted"><span>{{sign.userName}}</span>累计签到天数：{{sign.signNum}}</p>
+                    <p class="posted"><span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;累计签到天数：&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: large">{{sign.signNum}}</span></p>
                     <img :src="'http://localhost:8880' + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
                     <span>{{sign.userName}}</span>
                     <p class="text">{{sign.signature}}</p>

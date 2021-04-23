@@ -21,16 +21,7 @@
                                 </header>
                                 <!--                                    <a href="#" class="image full"><img src="../images/pic07.jpg" alt=""/></a>-->
                                 <div class="block">
-                                    <el-timeline>
-                                        <el-timeline-item :timestamp="life.updateTime" placement="top" v-for="life in
-                                            lifes">
-                                            <el-card>
-                                                <h4>{{life.channelName}}</h4>
-                                                <p>{{life.content}}</p>
-                                            </el-card>
-                                        </el-timeline-item>
 
-                                    </el-timeline>
                                 </div>
                                 <div class="block">
                                     <el-pagination class="mpage"

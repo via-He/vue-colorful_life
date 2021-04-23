@@ -128,8 +128,6 @@
                             <el-aside id="sidebar" class="4u">
                                 <Aside></Aside>
                             </el-aside>
-
-
                         </div>
                     </div>
                 </el-main>

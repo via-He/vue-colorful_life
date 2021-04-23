@@ -59,10 +59,10 @@
                                                         <svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-dianzan"></use>
                                                         </svg>
-                                                        <svg class="iconfont" aria-hidden="true">
+                                                        <svg class="iconfont" aria-hidden="true" v-on:click="edit(notice.id,notice.content)">
                                                             <use xlink:href="#icon-bianji"></use>
                                                         </svg>
-                                                        <i v-on:click="deleteMoment(notice.id)"><svg class="iconfont" aria-hidden="true">
+                                                        <i v-on:click="deleteNotice(notice.id)"><svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-shanchu3"></use>
                                                         </svg></i>
                                                     </el-row>
@@ -95,10 +95,29 @@
                                             </el-form>
                                         </el-card>
                                     </el-tab-pane>
+                                    <div v-if="!((ruleForm1.id === '')&&(ruleForm1.id === null))">
+                                    <el-tab-pane label="编辑公告" name="third" >
+                                        <el-card>
+                                            <el-form :model="ruleForm1" :rules="rules1" ref="ruleForm1" label-width="100px"
+                                                     class="demo-ruleForm">
+                                                <el-form-item prop="noticeId" label="id">
+                                                    <el-input v-model="ruleForm1.noticeId" hidden readonly></el-input>
+                                                </el-form-item>
+                                                <el-form-item label="内容" prop="content">
+                                                    <el-input type="textarea" v-model="ruleForm1.content" placeholder="请输入内容"></el-input>
+                                                </el-form-item>
+                                                <el-form-item>
+                                                    <el-button type="primary" @click="editForm('ruleForm1')">发布</el-button>
+                                                    <el-button @click="resetForm('ruleForm1')">重置</el-button>
+                                                </el-form-item>
+                                            </el-form>
+                                        </el-card>
+                                    </el-tab-pane>
+                                    </div>
                                 </el-tabs>
                             </div>
                             <!--SideBar-->
-                            <el-aside id="sidebar" class="4u">
+                            <el-aside id="sidebar" class="4u" v-if="!(role === 1)">
                                 <Aside></Aside>
                             </el-aside>
 
@@ -122,12 +141,13 @@
     import AdminHeader from "../components/admin/AdminHeader";
 
     export default {
+        inject :['reload'],
         name: "Notice",
         components: {AdminHeader, Header, Bottom, Aside},
         data() {
             return {
                 textarea: '',
-                isShow: true,
+                isShow: false,
                 activeName: 'first',
                 role:'',
                 userName:'',
@@ -136,13 +156,25 @@
                 total: 0,
                 pageSize: 5,
                 ruleForm: {
-                    content:''
+                    content:'',
+                },
+                ruleForm1: {
+                    content:'',
+                    noticeId:''
                 },
                 rules:{
                     content: [
-                        {trequired: true, message: '请输入内容', trigger: 'blur'},
+                        {required: true, message: '请输入内容', trigger: 'blur'},
                         {min: 1, max: 500, message: '长度在 10到 500 个字符', trigger: 'blur'}
-                    ]
+                    ],
+                },
+                rules1:{
+                    content: [
+                        {required: true, message: '请输入内容', trigger: 'blur'},
+                        {min: 1, max: 500, message: '长度在 10到 500 个字符', trigger: 'blur'}
+                    ],
+                    id:[{required :true},
+                        {type: 'number'}]
                 }
             }
         },
@@ -173,7 +205,6 @@
                     _this.pageSize = res.data.data.pageSize
                     console.log(_this.pageSize, 'this.pagesize')
                     _this.total = res.data.data.total
-
                 })
             },
             submitForm(formName){
@@ -185,13 +216,30 @@
                             _this.$alert('发布成功', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
-                                    _this.$router.push("/notice")
+                                    _this.reload()
                                 }
                             });
                         })
                     }
                 })
             },
+            editForm(formName){
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        const _this = this
+                        _this.$axios.post("/notice/admin/update", qs.stringify(this.ruleForm1)).then(res =>{
+                            console.log(res)
+                            _this.$alert('发布成功', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    _this.reload()
+                                }
+                            });
+                        })
+                    }
+                })
+            },
+
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
@@ -200,18 +248,48 @@
                 _this.role = this.$store.getters.getUser.role
                 _this.userName = this.$store.getters.getUser.userName
                 console.log( _this.role)
-                if (_this.role === 0){
+                if (_this.role === 1){
+                    this.isShow = true
                 }
             },
+            deleteNotice(noticeId) {
+                const _this = this
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    _this.$axios.get("/notice/delete?noticeId=" + noticeId).then(res => {
+                        this.$alert('删除成功', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                _this.reload()
+                            }
+                        });
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+
+                })
+            },
+            edit(id,content){
+                this.activeName = 'third',
+                    this.ruleForm1.noticeId = id,
+                    this.ruleForm1.content = content
+            }
         },
         created() {
-            this.page(1, 5)
-            this.getUserRole()
+                this.page(1, 5)
+                this.getUserRole()
         }
     }
 </script>
 
 <style scoped>
+
     .icon {
         width: 1em;
         height: 1em;
@@ -284,7 +362,7 @@
         text-overflow: clip; /* 修剪文本 */
         display: -webkit-box; /* 弹性布局 */
         -webkit-box-orient: vertical; /* 从上向下垂直排列子元素 */
-        -webkit-line-clamp: 1; /* 限制文本仅显示前三行 */
+        -webkit-line-clamp: 3; /* 限制文本仅显示前三行 */
     }
 
     #example p {
