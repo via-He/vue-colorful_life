@@ -1,90 +1,108 @@
 <template>
     <div>
-    <div class="block">
+        <div class="block">
 
-        <el-timeline>
-            <el-timeline-item :timestamp="life.updateTime" placement="top"
-                              v-for="(life,id) in
-                                            lifes" :key="id" >
-                <el-card>
-                    <h4>标题 ：{{life.title}}</h4>
-                    <i class="el-icon-delete" v-on:click="deleteSign(life.id)"></i>
+            <el-timeline>
+                <el-timeline-item :timestamp="life.updateTime" placement="top"
+                                  v-for="(life,id) in
+                                            lifes" :key="id">
+                    <el-card>
+                        <h4>标题 ：{{life.title}}</h4>
 
-                    <hr>
-                    <p>内容 ：
-                        {{life.content}}
-                    </p>
-                    <div class="demo-image__preview">
-                        <el-image v-show="!(life.mediaUrl == '')"
-                                class="img full"
-                                :src="'http://localhost:8880' + life.mediaUrl"
-                                :preview-src-list="srcList">
-                        </el-image>
-                    </div>
-                    <!--标签-->
-                    <el-tag closable>
-                        {{life.channelName}}
-                    </el-tag>
-                </el-card>
-            </el-timeline-item>
+                        <hr>
+                        <p>内容 ：
+                            {{life.content}}
+                        </p>
+                        <div class="demo-image__preview">
+                            <el-image v-show="!(life.mediaUrl == '')"
+                                      class="img full"
+                                      :src="'http://localhost:8880' + life.mediaUrl"
+                                      >
+                            </el-image>
+                        </div>
+                        <!--标签-->
+                        <el-tag closable>
+                            {{life.channelName}}
+                        </el-tag>
+                        <el-row id="icon-group">
+                            <span >
+                                <svg class="iconfont" aria-hidden="true">
+                                    <use xlink:href="#icon-dianzan"></use>
+                                </svg><span>{{life.pinkNum}}</span>
+                            </span>
+                            <span >
+                                <svg class="iconfont" aria-hidden="true">
+                                    <use xlink:href="#icon-pinglun1"></use>
+                                </svg><span></span>
+                            </span>
+                            <span>
+                                <i v-on:click="deleteSign(life.id)"><svg class="iconfont"
+                                                                         aria-hidden="true">
+                                    <use xlink:href="#icon-shanchu3"></use>
+                                </svg></i>
+                            </span>
+                        </el-row>
+                    </el-card>
+                </el-timeline-item>
 
-        </el-timeline>
+            </el-timeline>
 
-    </div>
-    <div class="block">
-        <el-pagination class="mpage"
-                       layout="prev, pager, next"
-                       :current-page="pageNum"
-                       :page-size="pageSize"
-                       :total="total"
-                       @current-change="page"
-                       @size-change="page"
-        >
-        </el-pagination>
-    </div>
+        </div>
+        <div class="block">
+            <el-pagination class="mpage"
+                           layout="prev, pager, next"
+                           :current-page="pageNum"
+                           :page-size="pageSize"
+                           :total="total"
+                           @current-change="page"
+                           @size-change="page"
+            >
+            </el-pagination>
+        </div>
     </div>
 </template>
 
 <script>
     import Element from "element-ui";
+
     export default {
         name: "Sign",
-        inject :['reload'],
-        data(){
-            return{
-                lifes:'',
-                pageNum:1,
-                total:0,
-                pageSize:5,
+        inject: ['reload'],
+        data() {
+            return {
+                lifes: '',
+                pageNum: 1,
+                total: 0,
+                pageSize: 5,
 
             }
         },
         methods: {
-            page(pageNum,pageSize){
+            page(pageNum, pageSize) {
                 console.log("签到内容分页查询")
                 console.log(sessionStorage.getItem("user"))
                 const _this = this
                 pageSize = _this.pageSize
                 _this.$axios.get("/sign/listSign",
-                    {params:{pageNum,pageSize }}).then(res =>{
+                    {params: {pageNum, pageSize}}).then(res => {
                     console.log(res)
                     console.log("photo集合")
                     console.log(res.data.data.list)
                     _this.lifes = res.data.data.list
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
-                    _this.total= res.data.data.total
+                    _this.total = res.data.data.total
 
                 })
             },
-            deleteSign(signId){
+            deleteSign(signId) {
                 const _this = this
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    _this.$axios.get("/sign/delete?signId=" + signId).then(res =>{
+                    _this.$axios.get("/sign/delete?signId=" + signId).then(res => {
                         this.$alert('删除成功', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -103,11 +121,32 @@
 
         },
         created() {
-            this.page(1,5)
+            this.page(1, 5)
         }
     }
 </script>
 
 <style scoped>
+    .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+    }
 
+    #icon-group {
+
+        font-size: 15px;
+        height: 1.6em;
+        margin-top: 50px;
+        line-height: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: normal
+    }
 </style>

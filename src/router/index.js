@@ -45,7 +45,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/lifes/:id/edit',
+    path: '/momentEdit',
     name: 'MomentEdit',
     component: MomentEdit
   },

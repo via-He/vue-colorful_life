@@ -10,6 +10,7 @@ import "./axios"
 import "../theme/index.css"
 import "./assets/icon/iconfont.css"
 import "./assets/icon/iconfont"
+import jquery from 'jquery'
 // axios.defaults.withCredentials = true
 import qs from 'qs'
 Vue.prototype.$qs = qs
@@ -20,6 +21,7 @@ axios.defaults.withCredentials = true
 Vue.use(Element)
 new Vue({
   router,
+  jquery,
   store,
   render: h => h(App)
 }).$mount('#app')

@@ -42,12 +42,23 @@
                             </div>
                         </template>
                     </div>
-
-                    <el-row class="icon">
-                        <i class="el-icon-star-off" v-if="mom.isHide"></i>
-                        <i class="el-icon-star-on" v-else v-on:click="pink" style="margin-left: 10px;width: 10px"></i>
-                        <i class="el-icon-chat-dot-round" @click="comment"></i>
-                        <i class="el-icon-delete-solid" v-on:click="deleteMoment(mom.id)"></i>
+                    <el-row id="icon-group">
+                            <span >
+                                <svg class="iconfont" aria-hidden="true">
+                                    <use xlink:href="#icon-dianzan"></use>
+                                </svg><!--<span>{{mom.pinkNum}}</span>-->
+                            </span>
+                        <span >
+                                <svg class="iconfont" aria-hidden="true">
+                                    <use xlink:href="#icon-pinglun1" @click="show = !show"></use>
+                                </svg><span></span>
+                            </span>
+                        <span>
+                                <i v-on:click="deleteMoment(mom.id)"><svg class="iconfont"
+                                                                         aria-hidden="true">
+                                    <use xlink:href="#icon-shanchu3"></use>
+                                </svg></i>
+                            </span>
                     </el-row>
                 </el-card>
             </el-timeline-item>
@@ -78,12 +89,6 @@
                 pageNum: 1,
                 total: 0,
                 pageSize: 4,
-
-                srcList: [
-                    'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-                    'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-                ],
-
             }
         },
         methods: {
@@ -159,14 +164,28 @@
 </script>
 
 <style scoped>
-    .icon{
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-        display:flex;
-        justify-content: flex-start;
+    .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
     }
 
+    #icon-group {
+
+        font-size: 15px;
+        height: 1.6em;
+        margin-top: 50px;
+        line-height: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: normal
+    }
     .text {
         font-size: 14px;
     }

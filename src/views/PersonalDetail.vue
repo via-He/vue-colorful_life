@@ -19,8 +19,8 @@
                                         <el-menu-item index="/moment">我的瞬间</el-menu-item>
 
                                     <el-menu-item index="/userData">个人资料</el-menu-item>
-                                    <el-menu-item
-                                            index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+                                    <!--<el-menu-item
+                                            index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
                                 </el-menu>
 
                                 <div class="line"></div>

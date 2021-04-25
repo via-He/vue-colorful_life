@@ -14,10 +14,18 @@
             <el-card>
                 <header>
                     <el-button type="primary">
-                        <router-link :to="{path:'signEdit'}">签到</router-link>
+                        <router-link :to="{path:'signEdit'}" style="text-decoration: none"><h1>今日没签到哟</h1></router-link>
+                    </el-button>
+                    <span>我已累计签到&emsp;&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: 30px">{{personSignNum}}</span>&emsp;&emsp;天</span>
+                    <el-button style="margin-top: 20px">
+                        <router-link :to="{path:'momentEdit'}" style="text-decoration: none">
+                            <svg class="iconfont" aria-hidden="true">
+                                <use xlink:href="#icon-chuangjian"></use>
+                            </svg>
+                            <h1>记下每一个瞬间</h1></router-link>
                     </el-button>
                 </header>
-                <span>我已累计签到&emsp;&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: 30px">{{personSignNum}}</span>&emsp;&emsp;天</span>
+
             </el-card>
             <div id="cal">
                 <el-calendar v-model="value">

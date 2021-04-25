@@ -3,7 +3,7 @@
         <el-container>
             <!--头部-->
 
-                    <Header></Header>
+            <Header></Header>
             <!--主栏-->
             <el-container class="container">
                 <el-main id="main">
@@ -44,6 +44,18 @@
                                                                               :preview-src-list="srcList">
                                                                     </el-image>
                                                                 </div>
+                                                                <el-row id="icon-group">
+                                                                    <span>
+                                                                        <svg class="iconfont" aria-hidden="true">
+                                                                            <use xlink:href="#icon-dianzan"></use>
+                                                                        </svg><!--<span>{{mom.pinkNum}}</span>-->
+                                                                    </span>
+                                                                    <span>
+                                                                        <svg class="iconfont" aria-hidden="true">
+                                                                            <use xlink:href="#icon-pinglun1"></use>
+                                                                        </svg><span></span>
+                                                                    </span>
+                                                                </el-row>
                                                             </el-card>
                                                         </el-timeline-item>
                                                     </el-timeline>
@@ -57,7 +69,10 @@
                                                                 <div class="line"></div>
                                                                 <div class="demo-image__preview">
                                                                     <a href="#" class="image full">
-                                                                        <el-image v-show="!(channel.createMediaUrl === '')" :src="'http://localhost:8880' + channel.createMediaUrl" alt=""/>
+                                                                        <el-image
+                                                                                v-show="!(channel.createMediaUrl === '')"
+                                                                                :src="'http://localhost:8880' + channel.createMediaUrl"
+                                                                                alt=""/>
                                                                     </a>
 
                                                                 </div>
@@ -93,14 +108,21 @@
                                                                         </div>
                                                                     </template>
                                                                 </div>
-
-                                                                <el-row>
-                                                                    <!--                                                                <i class="el-icon-delete" v-on:click="deleteMoment(channel.createId)"></i>-->
-                                                                    <i class="el-icon-star-off"
-                                                                       v-if="channel.isHide"></i>
-                                                                    <i class="el-icon-star-on" v-else
-                                                                       v-on:click="pink"></i>
-                                                                    <i class="el-icon-chat-dot-round"></i>
+                                                                <!--标签-->
+                                                                <el-tag closable>
+                                                                    {{channel.channelName}}
+                                                                </el-tag>
+                                                                <el-row id="icon-group1">
+                                                                    <span>
+                                                                        <svg class="iconfont" aria-hidden="true">
+                                                                            <use xlink:href="#icon-dianzan"></use>
+                                                                        </svg><!--<span>{{mom.pinkNum}}</span>-->
+                                                                    </span>
+                                                                                                            <span>
+                                                                        <svg class="iconfont" aria-hidden="true">
+                                                                            <use xlink:href="#icon-pinglun1"></use>
+                                                                        </svg><span></span>
+                                                                    </span>
                                                                 </el-row>
                                                             </el-card>
                                                         </el-timeline-item>
@@ -199,14 +221,14 @@
                     _this.total = res.data.data.total
                 })
             },
-            pink() {
+            /*pink() {
                 const _this = this
                 let createId = _this.moments.id
                 console.log(createId)
                 _this.$axios.get("/create/pink", createId).then(res => {
                     console.log(res, "点赞结果")
                 })
-            },
+            },*/
         },
         created() {
             this.page(this.pageNum, this.pageSize)
@@ -216,11 +238,48 @@
 
 <style scoped>
 
+    .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+    }
+
+    #icon-group {
+
+        font-size: 15px;
+        height: 1.6em;
+        margin-top: 50px;
+        line-height: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: normal
+    }
+    #icon-group1 {
+
+        font-size: 15px;
+        height: 1.6em;
+        margin-top: 50px;
+        line-height: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: normal
+    }
     /*******header不能全局修饰******/
     .mpage {
         margin: 0 auto;
         text-align: center;
     }
+
     .el-footer {
         position: relative;
         background: #1d1d1d;

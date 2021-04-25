@@ -299,9 +299,17 @@
     }
     #icon-group{
 
-        font-size: 20px;
-        display:flex;
-        justify-content: flex-start;
+        font-size: 15px;
+        height: 1.6em;
+        margin-top: 50px;
+        line-height: 2em;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-wrap: normal
     }
 
     #yonghu{

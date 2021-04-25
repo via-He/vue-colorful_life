@@ -14,7 +14,7 @@
                                 <section>
                                     <header>
                                         <h2>今日签到</h2>
-                                        <span class="byline">Integer sit amet pede vel arcu aliquet pretium</span>
+                                        <span class="byline">坚持每一个好习惯，写下今天的签到呀！</span>
                                     </header>
                                     <div style="margin: 20px 0;"></div>
 
@@ -28,7 +28,7 @@
                                             <el-input type="textarea" v-model="ruleForm.content"></el-input>
                                         </el-form-item>
 
-                                        <el-form-item label="频道" prop="description">
+                                        <el-form-item label="频道" prop="channelName">
 
                                             <el-select v-model="ruleForm.channelName"
                                                        placeholder="选择频道">
@@ -41,7 +41,7 @@
                                             </el-select>
                                         </el-form-item>
 
-                                        <el-form-item>
+                                        <el-form-item prop="mediaUrl">
                                             <el-upload
                                                     action="http://localhost:8880/upload"
                                                     list-type="picture-card"
@@ -119,31 +119,34 @@
                 rules: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'},
-                        {min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur'}
+                        {min: 3, max: 40, message: '长度在 3 到 40 个字符', trigger: 'blur'}
                     ],
 
                     content: [
-                        {trequired: true, message: '请输入内容', trigger: 'blur'},
+                        {required: true, message: '请输入内容', trigger: 'blur'},
                         {min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur'}
+                    ],
+                    channelName: [
+                        {required: true, message: '请输入内容', trigger: 'blur'}
                     ]
                 },
                 options: [{
-                    value: '选项1',
+                    value: '学习',
                     label: '学习'
                 }, {
-                    value: '选项2',
+                    value: '成长',
                     label: '成长'
                 }, {
-                    value: '选项3',
+                    value: '情感',
                     label: '情感'
                 }, {
-                    value: '选项4',
+                    value: '思想',
                     label: '思想'
                 }, {
-                    value: '选项5',
+                    value: '旅游',
                     label: '旅游'
                 }, {
-                    value: '选项6',
+                    value: '美食',
                     label: '美食'
                 }],
                 channelName: [],
@@ -162,12 +165,12 @@
                 console.log(this.dialogImageUrl,'ddfffffffffffff')
 
             },
-            uploadMedia(file) {
+/*            uploadMedia(file) {
                 const _this = this
                 _this.$axios.post('/upload', file).then(res => {
                     console.log(res)
                 })
-            },
+            },*/
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {

@@ -126,6 +126,54 @@
         letter-spacing: 0.25em;
         text-transform: uppercase;
     }
+
+    #nav
+    {
+    }
+
+    #nav > ul > li
+    {
+        display: inline-block;
+    }
+
+    #nav > ul > li:last-child
+    {
+        padding-right: 0;
+    }
+
+    #nav > ul > li > a,
+    #nav > ul > li > span
+    {
+        display: block;
+        padding: 1em 1.5em;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: 1em;
+        outline: 0;
+        color: rgba(255,255,255,.7);
+    }
+
+
+    #nav > ul > li > a:hover
+    {
+        color: #FFF;
+    }
+
+    #nav li.active a
+    {
+        background: none;
+        border-radius: 40px;
+        border: 2px solid;
+        border-color: rgba(255,255,255,.8);
+        color: #FFF;
+    }
+
+    #nav > ul > li > ul
+    {
+        display: none;
+    }
     @media screen and (max-width: 980px) {
 
         #header .links {
