@@ -39,6 +39,23 @@
                                                         <el-tag closable>
                                                             {{sign.channelName}}
                                                         </el-tag>
+                                                        <el-row id="icon-group1">
+                                                        <span class="icon1">
+                                                        <svg class="iconfont" aria-hidden="true">
+                                                            <use xlink:href="#icon-dianzan"></use>
+                                                        </svg><span>{{sign.pinkNum}}</span>
+                                                        </span>
+                                                            <span class="icon2">
+                                                        <svg class="iconfont" aria-hidden="true">
+                                                            <use xlink:href="#icon-pinglun1"></use>
+                                                        </svg><span></span>
+                                                        </span>
+                                                            <span class="icon3">
+                                                        <i v-on:click="deleteSign(sign.id)"><svg class="iconfont" aria-hidden="true">
+                                                            <use xlink:href="#icon-shanchu3"></use>
+                                                        </svg></i>
+                                                        </span>
+                                                        </el-row>
                                                     </el-card>
                                                 </el-timeline-item>
                                             </el-timeline>
@@ -143,6 +160,7 @@
     export default {
         name: "CreateAdmin",
         components: {Bottom, AdminHeader},
+        inject: ['reload'],
         data() {
             return {
 
@@ -204,6 +222,28 @@
                     console.log(res, "点赞结果")
                 })
             },
+            deleteSign(signId){
+                const _this = this
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    _this.$axios.get("/admin/deleteSign?signId=" + signId).then(res => {
+                        this.$alert('删除成功', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                _this.reload()
+                            }
+                        });
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
             deleteMoment(createItemId) {
                 const _this = this
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -211,7 +251,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    _this.$axios.get("/create/delete?createItemId=" + createItemId).then(res => {
+                    _this.$axios.get("/admin/deleteMoment?createItemId=" + createItemId).then(res => {
                         this.$alert('删除成功', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -243,7 +283,7 @@
         fill: currentColor;
         overflow: hidden;
     }
-    #icon-group{
+    #icon-group,#icon-group1{
         font-size: 15px;
         height: 1.6em;
         margin-top: 50px;

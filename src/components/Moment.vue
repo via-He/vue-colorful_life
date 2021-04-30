@@ -50,7 +50,7 @@
                             </span>
                         <span >
                                 <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-pinglun1" @click="show = !show"></use>
+                                    <use xlink:href="#icon-pinglun1" @click="comment"></use>
                                 </svg><span></span>
                             </span>
                         <span>

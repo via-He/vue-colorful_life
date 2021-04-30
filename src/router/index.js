@@ -10,6 +10,7 @@ import MomentEdit from "../views/MomentEdit";
 import Channel from "../views/Channel";
 import CreateAdmin from "../views/admin/CreateAdmin";
 import User from "../views/admin/User";
+import UserDetail from "../views/UserDetail";
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
     path: '/createAdmin',
     name: 'CreateAdmin',
     component: CreateAdmin
+  },
+  {
+    path: '/userDetail',
+    name: 'UserDetail',
+    component: UserDetail
   },
   {
     path: '/personal',

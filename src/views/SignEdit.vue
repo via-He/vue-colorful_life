@@ -77,14 +77,6 @@
                                 <Aside></Aside>
                             </el-aside>
 
-                            <!-- Footer -->
-                            <div id="featured">
-                                <div class="container">
-                                    <div class="row">
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </el-main>
@@ -130,25 +122,10 @@
                         {required: true, message: '请输入内容', trigger: 'blur'}
                     ]
                 },
-                options: [{
-                    value: '学习',
-                    label: '学习'
-                }, {
-                    value: '成长',
-                    label: '成长'
-                }, {
-                    value: '情感',
-                    label: '情感'
-                }, {
-                    value: '思想',
-                    label: '思想'
-                }, {
-                    value: '旅游',
-                    label: '旅游'
-                }, {
-                    value: '美食',
-                    label: '美食'
-                }],
+                options: [
+                    {value: '学习', label: '学习'}, {value: '成长', label: '成长'},
+                    {value: '情感', label: '情感'}, {value: '思想', label: '思想'},
+                    {value: '旅游', label: '旅游'}, {value: '美食', label: '美食'}],
                 channelName: [],
             }
         },
@@ -173,6 +150,8 @@
             },*/
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
+
+
                     if (valid) {
 
                         const _this = this

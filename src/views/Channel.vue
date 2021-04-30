@@ -41,7 +41,7 @@
                                                                     <el-image v-show="!(channel.signMediaUrl === '')"
                                                                               class="img full"
                                                                               :src="'http://localhost:8880' + channel.signMediaUrl"
-                                                                              :preview-src-list="srcList">
+                                                                              >
                                                                     </el-image>
                                                                 </div>
                                                                 <el-row id="icon-group">
@@ -174,6 +174,10 @@
             return {
                 isHide: true, //初始值为true，显示为折叠画面
                 channels: {},
+                user:{
+                    userName:'',
+                    headImage:''
+                },
                 pageNum: 1,
                 total: 0,
                 pageSize: 3,

@@ -25,7 +25,7 @@
                                             <el-input type="textarea" v-model="ruleForm.content"></el-input>
                                         </el-form-item>
 
-                                        <el-form-item label="频道" prop="description">
+                                        <el-form-item label="频道" prop="channelName">
 
                                             <el-select v-model="ruleForm.channelName"
                                                        placeholder="选择频道">
@@ -38,10 +38,11 @@
                                             </el-select>
                                         </el-form-item>
 
-                                        <el-form-item v-model="ruleForm.mediaUrl">
-                                            <el-upload
+                                        <el-form-item >
+                                            <el-upload v-model="ruleForm.mediaUrl"
                                                     action="http://localhost:8880/upload"
                                                     list-type="picture-card"
+                                                    :on-success="handleAvatarSuccess"
                                                     :auto-upload="true">
                                                 <i slot="default" class="el-icon-plus"></i>
                                                 <div slot="file" slot-scope="{file}">
@@ -63,7 +64,7 @@
                                             </el-dialog>
                                         </el-form-item>
                                         <el-form-item>
-                                            <el-button type="primary" @click="submitForm('ruleForm')">立即签到</el-button>
+                                            <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
                                             <el-button @click="resetForm('ruleForm')">重置</el-button>
                                         </el-form-item>
                                     </el-form>
@@ -74,14 +75,6 @@
                                 <Aside></Aside>
                             </el-aside>
 
-                            <!-- Footer -->
-                            <div id="featured">
-                                <div class="container">
-                                    <div class="row">
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </el-main>
@@ -109,34 +102,22 @@
                 disabled: false,
                 ruleForm: {
                     content: '',
-                    channelName: ''
+                    channelName: '',
+                    mediaUrl:''
                 },
                 rules: {
 
                     content: [
-                        {trequired: true, message: '请输入内容', trigger: 'blur'},
-                        {min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur'}
+                        {required: true, message: '请输入内容', trigger: 'blur'},
+                        {min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur'}],
+                    channelName: [
+                        {required: true, message: '请输入内容', trigger: 'blur'}
                     ]
                 },
-                options: [{
-                    value: '学习',
-                    label: '学习'
-                }, {
-                    value: '成长',
-                    label: '成长'
-                }, {
-                    value: '情感',
-                    label: '情感'
-                }, {
-                    value: '思想',
-                    label: '思想'
-                }, {
-                    value: '旅游',
-                    label: '旅游'
-                }, {
-                    value: '美食',
-                    label: '美食'
-                }],
+                options: [
+                    {value: '学习', label: '学习'}, {value: '成长', label: '成长'},
+            {value: '情感', label: '情感'}, {value: '思想', label: '思想'},
+            {value: '旅游', label: '旅游'}, {value: '美食', label: '美食'}],
                 channelName: [],
             }
         },
@@ -153,18 +134,16 @@
                 console.log(this.dialogImageUrl,'ddfffffffffffff')
 
             },
-            uploadMedia(file) {
-                const _this = this
-                _this.$axios.post('/upload', file).then(res => {
-                    console.log(res)
-                })
+            handleAvatarSuccess(res) {
+                // 把图片名给img
+                this.ruleForm.mediaUrl = res.data;
+                console.log('上传后的图片地址',res.data)
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-
                         const _this = this
-                        _this.$axios.post('/create/add', this.ruleForm).then(res => {
+                        _this.$axios.post('/create/add', qs.stringify(this.ruleForm)).then(res => {
                             console.log(res)
                             _this.$alert('发表成功', '提示', {
                                 confirmButtonText: '确定',
