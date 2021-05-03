@@ -10,7 +10,7 @@
                 </div>
                 <div class="block" style="margin-top: 10px">
                     <a href="#">
-                        <el-avatar fit="fill" :size="70" style="height: 70px; width: 70px"
+                        <el-image class="el-avatar--circle" fit="cover" style="height: 70px; width: 70px"
                                    :src="'http://localhost:8880' + user.headerImg"/>
                     </a>
                     <div><a href="#" style="color: #FFF;text-decoration:none;" >{{user.userName}}</a></div>

@@ -14,11 +14,13 @@
                             {{life.content}}
                         </p>
                         <div class="demo-image__preview">
-                            <el-image v-show="!(life.mediaUrl == '')"
+                            <a href="#" class="image full">
+                            <el-image fit="cover" style="width: 650px; height: 370px" v-show="!(life.mediaUrl == '')"
                                       class="img full"
                                       :src="'http://localhost:8880' + life.mediaUrl"
                                       >
                             </el-image>
+                            </a>
                         </div>
                         <!--标签-->
                         <el-tag closable>

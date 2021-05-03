@@ -38,11 +38,13 @@
                                                                     {{channel.signContent}}
                                                                 </p>
                                                                 <div class="demo-image__preview">
-                                                                    <el-image v-show="!(channel.signMediaUrl === '')"
+                                                                    <a href="#" class="image full">
+                                                                    <el-image style="width: 600px;height: 400px" v-show="!(channel.signMediaUrl === '')"
                                                                               class="img full"
                                                                               :src="'http://localhost:8880' + channel.signMediaUrl"
                                                                               >
                                                                     </el-image>
+                                                                    </a>
                                                                 </div>
                                                                 <el-row id="icon-group">
                                                                     <span>

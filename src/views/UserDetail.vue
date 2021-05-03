@@ -11,14 +11,16 @@
                     <header>
                         <div style="margin: 30px 0;"></div>
                         <h2 style="font-size: 2em">{{user.userName}}的博客</h2>
-                        <span class="byline">签名：{{user.signature}}</span>
+                        累计签到天数：&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: large">{{user.signNum}}</span>
+                        <p  class="byline">签名：{{user.signature}}</p>
                     </header>
                     <el-container>
                         <!--SideBar-->
                         <el-aside id="sidebar" class="4u">
                             <el-card>
-                                <img shape="square" :size="100" style="width: 150px;height: 150px;" fit="contain"
-                                     :src="'http://localhost:8880' + user.headImage">
+                                <el-image shape="square" :size="100" style="width: 150px;height: 150px;" fit="cover"
+                                     :src="'http://localhost:8880' + user.headImage"/>
+
                             </el-card>
                         </el-aside>
                     </el-container>

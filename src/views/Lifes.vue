@@ -22,21 +22,20 @@
                                         <el-timeline>
                                             <el-timeline-item :timestamp="mom.updateTime" v-for="(mom,index) in moments" icon="el-icon-time" placement="top">
                                                 <el-card class="box-card">
-                                                    <router-link :to="{path:'userDetail',query: {userId:mom.userId}}">
-                                                        <span class="posted">
+                                                    <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
                                                         <ul class="style">
                                                             <li>
-                                                                <img  :src="'http://localhost:8880' + mom.headImage" class="el-avatar el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
-                                                                <p class="posted"><span style="color: #2a2f27">{{mom.userName}}</span></p>
+                                                                <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                <p class="posted"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
                                                             </li>
-                                                        </ul></span>
+                                                        </ul>
                                                     </router-link>
 
                                                     <el-tag type="success">{{mom.channelName}}</el-tag>
                                                     <div class="line"></div>
                                                     <div class="demo-image__preview">
                                                         <a href="#" class="image full">
-                                                            <el-image :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                            <el-image style="height: 370px;width: 630px" fit="cover" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
                                                         </a>
 
                                                     </div>
@@ -165,22 +164,17 @@
                          this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
                              _this.user.userName = res.data.data.userName
                              _this.user.headImage = res.data.data.headImage
-
-                             console.log('sdddddddddddd',_this.user.userName)
-                             console.log('ddddd677777777777777',this.user.userName)
                              item.userName = _this.user.userName
                              item.headImage = _this.user.headImage
                          })
                         item.userName = _this.user.userName
                         item.headImage = _this.user.headImage
-                        console.log('得到的用户', item.userName)
                     })
                     _this.moments = momentList;
                     console.log('推荐分页列表', _this.moments);
                     // _this.moments = res.data.data.list;
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
-                    console.log(_this.pageSize, 'this.pagesize')
                     _this.total = res.data.data.total
 
                 })

@@ -46,7 +46,7 @@
                                                     :auto-upload="true">
                                                 <i slot="default" class="el-icon-plus"></i>
                                                 <div slot="file" slot-scope="{file}">
-                                                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
+                                                    <el-image fit="cover" class="el-upload-list__item-thumbnail" :src="file.url" alt=""/>
                                                     <!--                                                    <video controls="controls" :src="file.url" alt=""></video>-->
                                                     <span class="el-upload-list__item-actions">
                                                         <span class="el-upload-list__item-preview"

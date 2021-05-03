@@ -32,11 +32,16 @@
                 </el-calendar>
             </div>
             <h2>签到排行榜</h2>
+
             <ul class="style">
                 <li v-for="sign in users">
-                    <p class="posted"><span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;累计签到天数：&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: large">{{sign.signNum}}</span></p>
-                    <img :src="'http://localhost:8880' + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
-                    <span>{{sign.userName}}</span>
+                    <router-link :to="{path:'userDetail',query: {userId:sign.id}}" style="text-decoration: none">
+                    <p class="posted">
+                        <span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;
+                        累计签到天数：&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: large">{{sign.signNum}}</span>
+                    </p>
+                    <el-image fit="cover" :src="'http://localhost:8880' + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
+                    </router-link>
                     <p class="text">{{sign.signature}}</p>
                 </li>
             </ul>

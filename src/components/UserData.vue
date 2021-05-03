@@ -9,7 +9,7 @@
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="头像" prop="headImage">
-                        <img v-if="ruleForm.headImage" shape="square" :size="100" style="width: 150px;height: 150px;" fit="contain" :src="'http://localhost:8880' + ruleForm.headImage">
+                        <el-image v-if="ruleForm.headImage" shape="square" fit="cover" :size="100" style="width: 150px;height: 150px;" :src="'http://localhost:8880' + ruleForm.headImage"/>
                         <i v-else class="avatar-uploader-icon"></i>
                         <el-upload v-model="ruleForm.headImage"
                                    action="http://localhost:8880/upload"
@@ -21,7 +21,7 @@
                             <i slot="default" class="el-icon-plus"></i>
                             <div slot="file" slot-scope="{file}">
                                 <!--上传后回显图片-->
-                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
+                                <el-image fit="cover" style="width: 150px;height: 150px;" class="el-upload-list__item-thumbnail"  :src="file.url" alt=""/>
                                 <span class="el-upload-list__item-actions">
                                                         <span class="el-upload-list__item-preview"
                                                               @click="handlePictureCardPreview(file)">
