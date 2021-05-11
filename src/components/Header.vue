@@ -9,7 +9,7 @@
                     <span>欢迎来到多彩生活记小站</span>
                 </div>
                 <div class="block" style="margin-top: 10px">
-                    <a href="#">
+                    <a href="/personal">
                         <el-image class="el-avatar--circle" fit="cover" style="height: 70px; width: 70px"
                                    :src="'http://localhost:8880' + user.headerImg"/>
                     </a>
@@ -18,11 +18,10 @@
                 <!-- Nav -->
                 <nav id="nav">
                     <ul>
-                        <li class="active"><a href="/lifes"><h1>首页</h1></a></li>
-                        <li><a href="/channel"><h1>频道</h1></a></li>
-                        <li><a href="/personal"><h1>我的博客</h1></a></li>
-                        <li><a href="/notice"><h1>公告</h1></a></li>
-
+                        <li :class="{active:show == 1}" @click="show1" ><a href="/lifes"><h1>首页</h1></a></li>
+                        <li :class="{active:show == 2}" @click="show2"><a href="/channel"><h1>频道</h1></a></li>
+                        <li :class="{active:show == 3}" @click="show3"><a href="/personal"><h1>我的博客</h1></a></li>
+                        <li :class="{active:show == 4}" @click="show4"><a href="/notice"><h1>公告</h1></a></li>
                         <li>
                             <a v-show="!hasLogin" href="/login" style="text-decoration:none;"><h1>登录</h1></a>
                         </li>
@@ -35,7 +34,6 @@
         </div>
     </div>
 </template>
-
 <script>
     export default {
         name: "Header",
@@ -46,6 +44,7 @@
                     headerImg: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
                 },
                 hasLogin: false,
+                show:0
             }
         },
         methods: {
@@ -55,7 +54,19 @@
                     _this.$store.commit("REMOVE_USERINFO")
                     this.$router.push("/login")
                 })
-
+            },
+            show1(){
+                this.show = 1
+            },
+            show2(){
+                console.log("22222222222222222222222222")
+                this.show = 2
+            },
+            show3(){
+                this.show = 3
+            },
+            show4(){
+                this.show = 4
             }
         },
         created() {
@@ -128,8 +139,7 @@
         padding-right: 0;
     }
 
-    #nav > ul > li > a,
-    #nav > ul > li > span {
+    #nav > ul > li > a, #nav > ul > li > span {
         display: block;
         padding: 1em 1.5em;
         letter-spacing: 1px;

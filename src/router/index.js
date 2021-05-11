@@ -7,6 +7,7 @@ import Notice from '../views/Notice.vue'
 import SignEdit from '../views/SignEdit.vue'
 import PersonalDetail from '../views/PersonalDetail.vue'
 import MomentEdit from "../views/MomentEdit";
+import Search from "../views/Search";
 import Channel from "../views/Channel";
 import CreateAdmin from "../views/admin/CreateAdmin";
 import User from "../views/admin/User";
@@ -66,13 +67,18 @@ const routes = [
     component: UserDetail
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: Search
+  },
+  {
     path: '/personal',
-    name: 'PersonalDetail',
+    // name: 'PersonalDetail',
     component: PersonalDetail,
     children:[
       {//默认我的签到记录
         path:'/',
-        name:'Sign',
+        // name:'Sign',
         component: ()=> import('@/components/Sign')
       },
       {//我的签到记录
@@ -99,7 +105,12 @@ const routes = [
     component: Channel,
   }
 ]
-
+//获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+//修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

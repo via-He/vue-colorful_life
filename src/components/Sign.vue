@@ -27,17 +27,17 @@
                             {{life.channelName}}
                         </el-tag>
                         <el-row id="icon-group">
-                            <span >
+                            <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-dianzan"></use>
-                                </svg><span>{{life.pinkNum}}</span>
+                                </svg><p>{{life.pinkNum}}</p>
                             </span>
-                            <span >
+                            <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-pinglun1"></use>
-                                </svg><span></span>
+                                </svg><span>34</span>
                             </span>
-                            <span>
+                            <span style="vertical-align: middle;display: flex">
                                 <i v-on:click="deleteSign(life.id)"><svg class="iconfont"
                                                                          aria-hidden="true">
                                     <use xlink:href="#icon-shanchu3"></use>

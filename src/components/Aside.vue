@@ -6,9 +6,9 @@
                 <el-input
                         placeholder="请输入内容"
                         prefix-icon="el-icon-search"
-                        v-model="searchinput">
+                        v-model="keyword">
                 </el-input>
-                <el-button id="searchBtn" icon="el-icon-search" type="info" plain></el-button>
+                <router-link :to="{path:'search',query: {keyword}}" style="text-decoration: none"><el-button id="searchBtn" icon="el-icon-search" type="info" plain></el-button></router-link>
                 </el-row>
             </el-card>
             <el-card>
@@ -70,7 +70,7 @@
                 total:0,
                 pageSize:4,
                 users: '',
-                searchinput:''
+                keyword:''
 
             }
         },

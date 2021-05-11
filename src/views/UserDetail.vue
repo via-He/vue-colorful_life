@@ -33,8 +33,7 @@
 
                                 <el-timeline>
                                     <el-timeline-item :timestamp="sign.updateTime" placement="top"
-                                                      v-for="(sign,id) in
-                                            signs" :key="id">
+                                                      v-for="(sign,index) in signs">
                                         <el-card>
                                             <h4>标题 ：{{sign.title}}</h4>
 
@@ -43,7 +42,7 @@
                                                 {{sign.content}}
                                             </p>
                                             <div class="demo-image__preview">
-                                                <el-image v-show="!(sign.mediaUrl == '')"
+                                                <el-image style="height: 370px;width: 630px" fit="cover" v-show="!(sign.mediaUrl == '')"
                                                           class="img full"
                                                           :src="'http://localhost:8880' + sign.mediaUrl"
                                                 >
@@ -54,17 +53,18 @@
                                                 {{sign.channelName}}
                                             </el-tag>
                                             <el-row id="icon-group2">
-                            <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-dianzan"></use>
-                                </svg><span>{{sign.pinkNum}}</span>
-                            </span>
-                                                <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-pinglun1"></use>
-                                </svg><span></span>
-                            </span>
+                                                <span style="vertical-align: middle;display: flex" @click="pinkSign(index)">
+                                                    <svg class="iconfont" aria-hidden="true">
+                                                        <use xlink:href="#icon-dianzan"></use>
+                                                    </svg><p>{{sign.pinkNum}}</p>
+                                                </span>
+                                                <span style="vertical-align: middle;display: flex">
+                                                    <svg class="iconfont" aria-hidden="true">
+                                                        <use xlink:href="#icon-pinglun1"></use>
+                                                    </svg><p>5</p>
+                                                </span>
                                             </el-row>
+
                                         </el-card>
                                     </el-timeline-item>
 
@@ -78,7 +78,7 @@
                                             <div class="line"></div>
                                             <div class="demo-image__preview">
                                                 <a href="#" class="image full">
-                                                    <el-image :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                    <el-image fit="cover" style="height: 370px;width: 630px" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
                                                 </a>
 
                                             </div>
@@ -114,17 +114,37 @@
                                                 </template>
                                             </div>
                                             <el-row id="icon-group">
-                            <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-dianzan"></use>
-                                </svg><!--<span>{{mom.pinkNum}}</span>-->
-                            </span>
-                                                <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-pinglun1" @click="comment"></use>
-                                </svg><span></span>
-                            </span>
+                                                <span style="vertical-align: middle;display: flex" @click="pinkMoment(index)">
+                                                    <svg class="iconfont" aria-hidden="true">
+                                                        <use xlink:href="#icon-dianzan"></use>
+                                                    </svg><p>{{mom.pinkNum}}</p>
+                                                </span>
+                                                <span  style="vertical-align: middle;display: flex" @click="onShow1(index,mom.id)">
+                                                    <svg class="iconfont" aria-hidden="true">
+                                                        <use xlink:href="#icon-pinglun1" @click="comment"></use>
+                                                    </svg><p>{{mom.num}}</p>
+                                                </span>
                                             </el-row>
+                                            <el-collapse-transition>
+                                                <div style="margin-top: 20px; height: 200px;" v-show="mom.show1" >
+
+                                                    <div class="transition-box">
+                                                        <ul class="style">
+                                                            <li v-for="com in comments">
+
+                                                                <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                <p>{{com.userName}}</p>
+                                                                <span style=" padding-left: 2em;">{{com.content}}</span>
+                                                            </li></ul>
+                                                        <el-row id="searchId">
+                                                            <el-input type="text" v-model="comment"></el-input>
+                                                            <el-button type="primary" id="comBtn" @click="submit(mom.id)">评论</el-button>
+                                                        </el-row>
+                                                    </div>
+
+                                                </div>
+
+                                            </el-collapse-transition>
                                         </el-card>
                                     </el-timeline-item>
                                 </el-timeline>
@@ -150,6 +170,7 @@
     export default {
         name: "userDetail",
         components: {Aside, Header, Bottom},
+        inject: ['reload'],
         methods: {
             handleClick(tab, event) {
                 console.log(tab, event);
@@ -165,25 +186,67 @@
                 this.moments[index].isHide = true;
                 // this.isHide = true;    //点击onHide切换为true，显示为折叠画面
             },
-            pink() {
+            pinkMoment(index) {
                 const _this = this
-                let createId = _this.moments.id
+                let createId = this.moments[index].id
                 console.log(createId)
-                _this.$axios.get("/create/pink", createId).then(res => {
+                _this.$axios.get("/create/pink?createItemId="+createId).then(res => {
                     console.log(res, "点赞结果")
+                    _this.reload()
                 })
             },
-            comment(){
+            pinkSign(index){
+                const _this = this
+                let signId = this.signs[index].id
+                console.log("sssss",signId)
+                _this.$axios.get("/sign/pink?signId="+signId).then(res => {
+                    console.log(res, "点赞结果")
+                    _this.reload()
+                })
+            },
+            submit(createItemId){
+                const content = this.comment
+                this.$axios.get("/create/comment",{params:{createItemId,content}}).then(res =>{
+                    console.log("评论之后",res)
+                    this.reload()
+                })
+            },
+            onShow1(index,createId) {
+                const _this = this
+                this.getComment(createId);
+                this.moments[index].show1 = !this.moments[index].show1;
 
+            },
+            getComment(createItemId){
+                this.$axios.post("/comment/detail?createItemId="+createItemId).then(res =>{
+                    let commentList = res.data.data
+                    commentList.forEach((item,index) =>{
+                        this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
+                            item.userName  = res.data.data.userName
+                            item.headImage = res.data.data.headImage
+
+                        })
+                        item.userName  = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+                    })
+                    this.comments = commentList
+                    console.log("查看评论内容",this.comments)
+                })
             },
 
         },
         data() {
             return {
+                comment:'',
+                commentNum:'',
+                moments: {
+                    isHide:'',
+                    show1:''
+                },
+                comments:{},
                 user: {},
                 activeName: 'first',
                 isHide: true, //初始值为true，显示为折叠画面
-                moments: {},
                 signs:{}
             }
         },
@@ -199,6 +262,18 @@
                 let momentList = res.data.data;
                 momentList.forEach((item, index) => {
                     item.isHide = true;
+                    this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
+                        item.userName = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+                    })
+                    item.userName = res.data.data.userName
+                    item.headImage = res.data.data.headImage
+                    this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
+                        this.commentNum = res.data.data
+                        console.log("评论次数", this.commentNum)
+                        item.num = this.commentNum
+                    })
+                    item.num = this.commentNum
                 })
                 _this.moments = momentList
                 console.log('得到的瞬间内容',_this.moments)
@@ -212,6 +287,36 @@
 </script>
 
 <style scoped>
+    ul.style li {
+        margin: 0;
+        padding: 1em 0em 1em 0em !important;
+        border-top: 1px solid #ECECEC;
+    }
+    #searchId{
+        display:flex;
+        justify-content: flex-start;
+    }
+    #searchId >>> .el-input__inner{
+        /*width: 70% !important;*/
+        float: left;
+
+    }
+    #comBtn{
+        float: right;
+        display:inline-block;
+    }
+    .transition-box {
+        margin-bottom: 10px;
+        width: 610px;
+        /*height: 100px;*/
+        border-radius: 4px;
+        background-color: #75775E;
+        background-image: linear-gradient(to bottom right,#A0BBC6 , #C9DEC1);
+        color: #fff;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        margin-right: 20px;
+    }
     .icon {
         width: 1em;
         height: 1em;

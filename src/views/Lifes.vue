@@ -2,7 +2,40 @@
     <div>
         <el-container>
             <!--头部-->
-                    <Header></Header>
+            <div id="header">
+                <div class="container">
+
+                    <div class="container">
+                        <!-- Logo -->
+                        <div id="logo">
+                            <h1><a href="#">Colorful Life</a></h1>
+                            <span>欢迎来到多彩生活记小站</span>
+                        </div>
+                        <div class="block" style="margin-top: 10px">
+                            <a href="/personal">
+                                <el-image class="el-avatar--circle" fit="cover" style="height: 70px; width: 70px"
+                                          :src="'http://localhost:8880' + curuser.headerImg"/>
+                            </a>
+                            <div><a href="#" style="color: #FFF;text-decoration:none;" >{{curuser.userName}}</a></div>
+                        </div>
+                        <!-- Nav -->
+                        <nav id="nav">
+                            <ul>
+                                <li class="active"><a href="/lifes"><h1>首页</h1></a></li>
+                                <li ><a href="/channel"><h1>频道</h1></a></li>
+                                <li ><a href="/personal"><h1>我的博客</h1></a></li>
+                                <li ><a href="/notice"><h1>公告</h1></a></li>
+                                <li>
+                                    <a v-show="!hasLogin" href="/login" style="text-decoration:none;"><h1>登录</h1></a>
+                                </li>
+                                <li>
+                                    <a v-show="hasLogin" @click="logout" style="text-decoration:none;"><h1>退出</h1></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
 
             <!--主栏-->
             <el-container class="container">
@@ -37,7 +70,6 @@
                                                         <a href="#" class="image full">
                                                             <el-image style="height: 370px;width: 630px" fit="cover" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
                                                         </a>
-
                                                     </div>
 
 
@@ -71,18 +103,37 @@
                                                         </template>
                                                     </div>
                                                     <el-row id="icon-group">
-                            <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-dianzan"></use>
-                                </svg><!--<span>{{mom.pinkNum}}</span>-->
-                            </span>
-                                                        <span >
-                                <svg class="iconfont" aria-hidden="true">
-                                    <use xlink:href="#icon-pinglun1" @click="comment"></use>
-                                </svg><span></span>
-                            </span>
-
+                                                        <span style="vertical-align: middle;display: flex" @click="pink(index)">
+                                                            <svg class="iconfont" aria-hidden="true">
+                                                                <use xlink:href="#icon-dianzan"></use>
+                                                            </svg><p>{{mom.pinkNum}}</p>
+                                                        </span>
+                                                        <div style="vertical-align: middle;display: flex" @click="onShow1(index,mom.id)">
+                                                            <svg class="iconfont" aria-hidden="true">
+                                                                <use xlink:href="#icon-pinglun1" ></use>
+                                                            </svg><p>{{mom.num}}</p>
+                                                        </div>
                                                     </el-row>
+                                                    <el-collapse-transition>
+                                                        <div style="margin-top: 20px; height: 200px;" v-show="mom.show1" >
+
+                                                                <div class="transition-box">
+                                                                    <ul class="style">
+                                                                    <li v-for="com in comments">
+
+                                                                        <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                        <p>{{com.userName}}</p>
+                                                                        <span style=" padding-left: 2em;">{{com.content}}</span>
+                                                                    </li></ul>
+                                                                    <el-row id="searchId">
+                                                                    <el-input type="text" v-model="comment"></el-input>
+                                                                    <el-button type="primary" id="comBtn" @click="submit(mom.id)">评论</el-button>
+                                                                    </el-row>
+                                                                </div>
+
+                                                        </div>
+
+                                                    </el-collapse-transition>
                                                 </el-card>
                                             </el-timeline-item>
                                         </el-timeline>
@@ -116,6 +167,7 @@
 </template>
 
 <script>
+    import qs from "qs";
     import Header from "../components/Header";
     import Aside from "../components/Aside";
     import Bottom from "../components/Bottom";
@@ -127,13 +179,22 @@
         data(){
             return{
                 role:'',
+                comment:'',
+                commentNum:'',
                 moments: {
+                    isHide:'',
+                    show1:''
                 },
+                comments:{},
                 user:{
                     userName:'',
                     headImage:''
                 },
-                username:'',
+                curuser:{
+                    userName:'',
+                    headImage:''
+                },
+                hasLogin:false,
                 pageNum:1,
                 total:0,
                 pageSize:5
@@ -141,14 +202,52 @@
         },
 
         methods:{
-
+            logout() {
+                const _this = this
+                this.$axios.post("/user/logout").then(res => {
+                    _this.$store.commit("REMOVE_USERINFO")
+                    this.$router.push("/login")
+                })
+            },
+            submit(createItemId){
+                const content = this.comment
+                this.$axios.get("/create/comment",{params:{createItemId,content}}).then(res =>{
+                    console.log("评论之后",res)
+                    this.reload()
+                })
+            },
             onShow: function (index) {
                 this.moments[index].isHide = false;
                 // this.isHide = false;    //点击onShow切换为false，显示为展开画面
             },
+            onShow1(index,createId) {
+                const _this = this
+                this.getComment(createId);
+                this.moments[index].show1 = !this.moments[index].show1;
+
+            },
             onHide: function (index) {
                 this.moments[index].isHide = true;
                 // this.isHide = true;    //点击onHide切换为true，显示为折叠画面
+            },
+            getComment(createItemId){
+                this.$axios.post("/comment/detail?createItemId="+createItemId).then(res =>{
+                    let commentList = res.data.data
+                    commentList.forEach((item,index) =>{
+                        this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
+                            item.userName  = res.data.data.userName
+                            item.headImage = res.data.data.headImage
+
+                        })
+                        item.userName  = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+
+
+                    })
+                    this.comments = commentList
+                    console.log("查看评论内容",this.comments)
+                })
+
             },
             page(pageNum, pageSize) {
                 console.log("瞬间内容分页查询")
@@ -160,6 +259,7 @@
                     let momentList = res.data.data.list;
                     momentList.forEach((item, index) => {
                         item.isHide = true;
+                        item.show1 = false;
                         // console.log('sddddd',item.userId)
                          this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
                              _this.user.userName = res.data.data.userName
@@ -169,26 +269,29 @@
                          })
                         item.userName = _this.user.userName
                         item.headImage = _this.user.headImage
+                        this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
+                            this.commentNum = res.data.data
+                            console.log("评论次数", this.commentNum)
+                            item.num = this.commentNum
+                        })
+                        item.num = this.commentNum
                     })
                     _this.moments = momentList;
                     console.log('推荐分页列表', _this.moments);
-                    // _this.moments = res.data.data.list;
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
                     _this.total = res.data.data.total
 
                 })
             },
-            pink() {
+            pink(index) {
                 const _this = this
-                let createId = _this.moments.id
-                console.log(createId)
-                _this.$axios.get("/create/pink", createId).then(res => {
+                let createId = this.moments[index].id
+                console.log("123345454446",createId)
+                _this.$axios.get("/create/pink?createItemId="+createId).then(res => {
                     console.log(res, "点赞结果")
+                    this.reload()
                 })
-            },
-            comment(){
-
             },
             deleteMoment(createItemId) {
                 const _this = this
@@ -215,14 +318,20 @@
             },
 
             getUserRole(){
-                const _this = this
-                _this.role = this.$store.getters.getUser.role
-                console.log('用户角色为：', _this.role)
+                if (this.$store.getters.getUser.userName) {
+                    this.curuser.userName = this.$store.getters.getUser.userName
+                    this.curuser.headerImg = this.$store.getters.getUser.headImage
+                    this.role = this.$store.getters.getUser.role
+                    this.hasLogin = true
+                }
+                console.log('当前用户', this.$store.getters.getUser.userName)
+                console.log('当前头像', this.user.headerImg)
             },
         },
         created() {
             this.page(1,5)
-            this.getUserRole()
+            this.getUserRole();
+
         }
 
     }
@@ -231,6 +340,96 @@
 </script>
 
 <style scoped>
+    #header {
+        /*height: 600px !important;*/
+        position: relative;
+        background: #FFF url(../images/banner.jpg) no-repeat;
+        background-size: cover;
+        padding: 5em 0em;
+        text-align: center;
+        vertical-align: baseline;
+    }
+    /*
+        .el-container #header {
+            padding: 15em 0em;
+        }*/
+
+    /*********************************************************************************/
+    /* Nav                                                                           */
+    /*********************************************************************************/
+
+    #nav ul {
+        margin: 0;
+    }
+
+    #nav > ul > li {
+        display: inline-block;
+    }
+
+    #nav > ul > li:last-child {
+        padding-right: 0;
+    }
+
+    #nav > ul > li > a, #nav > ul > li > span {
+        display: block;
+        padding: 1em 1.5em;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: 1.3em;
+        outline: 0;
+        color: rgba(255, 255, 255, .7);
+    }
+
+
+    #nav > ul > li > a:hover {
+        color: #FFF !important;
+    }
+
+    #nav li.active a {
+        background: none;
+        border-radius: 40px;
+        border: 2px solid;
+        border-color: rgba(255,255,255,.8);
+        color: #FFF;
+    }
+
+    #nav > ul > li > ul {
+        display: none;
+    }
+
+
+    ul.style li {
+        margin: 0;
+        padding: 1em 0em 1em 0em !important;
+        border-top: 1px solid #ECECEC;
+    }
+    #searchId{
+        display:flex;
+        justify-content: flex-start;
+    }
+    #searchId >>> .el-input__inner{
+        /*width: 70% !important;*/
+        float: left;
+
+    }
+    #comBtn{
+        float: right;
+        display:inline-block;
+    }
+    .transition-box {
+        margin-bottom: 10px;
+        width: 610px;
+        /*height: 100px;*/
+        border-radius: 4px;
+        background-color: #75775E;
+        background-image: linear-gradient(to bottom right,#A0BBC6 , #C9DEC1);
+        color: #fff;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        margin-right: 20px;
+    }
     .icon {
         width: 1em;
         height: 1em;
@@ -461,55 +660,6 @@
         color: rgba(255, 255, 255, .5);
     }
 
-    /*********************************************************************************/
-    /* Nav                                                                           */
-    /*********************************************************************************/
-
-    #nav ul
-    {
-        margin: 0;
-    }
-    #nav > ul > li {
-        display: inline-block;
-    }
-
-    #nav > ul > li:last-child {
-        padding-right: 0;
-    }
-
-    #nav > ul > li > a,
-    #nav > ul > li > span {
-        display: block;
-        padding: 1em 1.5em;
-        letter-spacing: 1px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-weight: 200;
-        font-size: 1em;
-        outline: 0;
-        color: rgba(255, 255, 255, .7);
-    }
-
-
-
-    #nav > ul > li > a:hover {
-        color: #FFF;
-    }
-
-    #nav li.active a {
-        background: none;
-        border-radius: 40px;
-        border: 2px solid;
-        border-color: rgba(255, 255, 255, .8);
-        color: #FFF;
-    }
-
-    #nav > ul > li > ul {
-        display: none;
-    }
-
-
-
     #content header {
         margin-bottom: 2em;
     }
@@ -527,8 +677,6 @@
         padding-bottom: 2em;
         font-size: 1.4em;
     }
-
-
 
     /* Buttons */
 

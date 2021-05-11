@@ -67,7 +67,8 @@
                         {min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur'}
                     ],
                     password: [
-                        {required: true, message: '请输入密码', trigger: 'change'}
+                        {required: true, message: '请输入密码', trigger: 'change'},
+                        {min: 8, max: 15, message: '长度在 8 到 15 个字符', trigger: 'blur'}
                     ]
                 }
             };

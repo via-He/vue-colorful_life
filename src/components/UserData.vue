@@ -119,16 +119,16 @@
                 // 设置限定格式
                 const img_mimetype = ['image/jpeg','image/jpg','image/png']
                 const isJPG =  img_mimetype.includes(file.type);
-                const isLt2M = file.size / 1024 / 1024 < 2;
+                // const isLt2M = file.size / 1024 / 1024 < 2;
                 if (!isJPG) {
                     this.$message.error('上传头像只能是图片格式!');
                     return false;
                 }
-                if (!isLt2M) {
+              /*  if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                     return false;
-                }
-                return isJPG && isLt2M;
+                }*/
+                return isJPG ;
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {

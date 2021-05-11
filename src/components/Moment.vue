@@ -43,15 +43,15 @@
                         </template>
                     </div>
                     <el-row id="icon-group">
-                            <span >
+                            <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-dianzan"></use>
-                                </svg><!--<span>{{mom.pinkNum}}</span>-->
+                                </svg><p>{{mom.pinkNum}}</p>
                             </span>
-                        <span >
+                        <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-pinglun1" @click="comment"></use>
-                                </svg><span></span>
+                                </svg><p>432</p>
                             </span>
                         <span>
                                 <i v-on:click="deleteMoment(mom.id)"><svg class="iconfont"
