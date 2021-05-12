@@ -8,9 +8,10 @@
                 <div id="main" style="padding: 30px 30px 30px 30px">
 
                     <header>
+                        <h1>你想搜索什么内容呢？</h1>
                         <div style="margin: 30px 0;"></div>
                         <el-row id="searchId">
-                        <el-input
+                        <el-input style="width: 590px"
                                 placeholder="请输入内容"
                                 prefix-icon="el-icon-search"
                                 v-model="keyword">
@@ -29,6 +30,14 @@
                                         <el-timeline-item :timestamp="sign.updateTime" placement="top"
                                                           v-for="(sign,index) in signs">
                                             <el-card>
+                                                <router-link :to="{path:'userDetail',query: {userId:sign.userId}}" style="text-decoration: none">
+                                                    <ul class="style">
+                                                        <li>
+                                                            <img fit="cover" :src="'http://localhost:8880' + sign.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                            <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;的签到</p>
+                                                        </li>
+                                                    </ul>
+                                                </router-link>
                                                 <h4>标题 ：{{sign.title}}</h4>
 
                                                 <hr>
@@ -43,9 +52,7 @@
                                                     </el-image>
                                                 </div>
                                                 <!--标签-->
-                                                <el-tag closable>
-                                                    {{sign.channelName}}
-                                                </el-tag>
+                                                <p class="posted">来自频道：<el-tag type="success">{{sign.channelName}}</el-tag></p>
                                                 <el-row id="icon-group2">
                                                 <span style="vertical-align: middle;display: flex" @click="pinkSign(index)">
                                                     <svg class="iconfont" aria-hidden="true">
@@ -55,7 +62,7 @@
                                                     <span style="vertical-align: middle;display: flex">
                                                     <svg class="iconfont" aria-hidden="true">
                                                         <use xlink:href="#icon-pinglun1"></use>
-                                                    </svg><p>5</p>
+                                                    </svg><p>{{sign.num}}</p>
                                                 </span>
                                                 </el-row>
                                             </el-card>
@@ -77,7 +84,14 @@
                                     <el-timeline>
                                         <el-timeline-item :timestamp="mom.updateTime" v-for="(mom,index) in moments" icon="el-icon-time" placement="top">
                                             <el-card class="box-card">
-                                                <el-tag type="success">{{mom.channelName}}</el-tag>
+                                                <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
+                                                    <ul class="style">
+                                                        <li>
+                                                            <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                            <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
+                                                        </li>
+                                                    </ul>
+                                                </router-link>
                                                 <div class="line"></div>
                                                 <div class="demo-image__preview">
                                                     <a href="#" class="image full">
@@ -116,6 +130,8 @@
                                                         </div>
                                                     </template>
                                                 </div>
+                                                <!--标签-->
+                                                <p class="posted">来自频道：<el-tag type="success">{{mom.channelName}}</el-tag></p>
                                                 <el-row id="icon-group1">
                                                 <span style="vertical-align: middle;display: flex" @click="pinkMoment(index)">
                                                     <svg class="iconfont" aria-hidden="true">
@@ -124,8 +140,8 @@
                                                 </span>
                                                     <span  style="vertical-align: middle;display: flex" >
                                                     <svg class="iconfont" aria-hidden="true">
-                                                        <use xlink:href="#icon-pinglun1" @click="comment"></use>
-                                                    </svg><p>343</p>
+                                                        <use xlink:href="#icon-pinglun1"></use>
+                                                    </svg><p>{{mom.num}}</p>
                                                 </span>
                                                 </el-row>
                                             </el-card>
@@ -143,7 +159,6 @@
                                     </div>
                                 </el-tab-pane>
                                 <el-tab-pane label="用户" name="three">
-
 
                                     <ul class="style">
                                         <li v-for="user in users">
@@ -224,9 +239,6 @@
                     _this.reload()
                 })
             },
-            comment(){
-
-            },
             refresh() {
                 const _this = this
                 this.$route.query.keyword = _this.keyword
@@ -241,7 +253,24 @@
                 pageSize = _this.pageSize
                 const keyword = _this.keyword
                 this.$axios.get("/searchSign" ,{params: {pageNum, pageSize, keyword}}).then(res => {
-                    _this.signs = res.data.data.list
+                    let signList = res.data.data.list
+                    signList.forEach((item,index) =>{
+                        // 签到发布人
+                        if (item.userId != null) {
+                            this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
+                                item.userName = res.data.data.userName
+                                item.headImage = res.data.data.headImage
+
+                            })
+                        }
+                        this.$axios.post("/comment/commentNum?signId=" + item.id).then(res =>{
+                            this.commentNum1 = res.data.data
+                            console.log("评论次数", this.commentNum1)
+                            item.num = this.commentNum1
+                        })
+                        item.num = this.commentNum1
+                    })
+                    _this.signs = signList
                     console.log('搜素得到的签到', _this.signs)
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
@@ -257,6 +286,20 @@
                     let momentList = res.data.data.list;
                     momentList.forEach((item, index) => {
                         item.isHide = true;
+                        // console.log('sddddd',item.userId)
+                        this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
+                            item.userName = res.data.data.userName
+                            item.headImage = res.data.data.headImage
+
+                        })
+                        item.userName = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+                        this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
+                            this.commentNum = res.data.data
+                            console.log("评论次数", this.commentNum)
+                            item.num = this.commentNum
+                        })
+                        item.num = this.commentNum
                     })
                     _this.moments = momentList
                     console.log('搜素得到的瞬间', _this.moments)
@@ -282,6 +325,8 @@
         },
         data() {
             return {
+                commentNum:'',
+                commentNum1:'',
                 pageNum: 1,
                 total: 0,
                 pageSize: 4,
@@ -311,11 +356,11 @@
     #searchId{
         display:flex;
         justify-content: flex-start;
+
     }
     #searchId >>> .el-input__inner{
         /*width: 70% !important;*/
         float: left;
-
     }
     #searchBtn{
         float: right;

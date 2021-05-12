@@ -30,7 +30,6 @@
                         <el-card>
                         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                             <el-tab-pane label="签到动态" name="first">
-
                                 <el-timeline>
                                     <el-timeline-item :timestamp="sign.updateTime" placement="top"
                                                       v-for="(sign,index) in signs">
@@ -49,9 +48,7 @@
                                                 </el-image>
                                             </div>
                                             <!--标签-->
-                                            <el-tag closable>
-                                                {{sign.channelName}}
-                                            </el-tag>
+                                            <p class="posted">来自频道：<el-tag type="success">{{sign.channelName}}</el-tag></p>
                                             <el-row id="icon-group2">
                                                 <span style="vertical-align: middle;display: flex" @click="pinkSign(index)">
                                                     <svg class="iconfont" aria-hidden="true">
@@ -74,7 +71,6 @@
                                 <el-timeline>
                                     <el-timeline-item :timestamp="mom.updateTime" v-for="(mom,index) in moments" icon="el-icon-time" placement="top">
                                         <el-card class="box-card">
-                                            <el-tag type="success">{{mom.channelName}}</el-tag>
                                             <div class="line"></div>
                                             <div class="demo-image__preview">
                                                 <a href="#" class="image full">
@@ -113,6 +109,8 @@
                                                     </div>
                                                 </template>
                                             </div>
+                                            <!--标签-->
+                                            <p class="posted">来自频道：<el-tag type="success">{{mom.channelName}}</el-tag></p>
                                             <el-row id="icon-group">
                                                 <span style="vertical-align: middle;display: flex" @click="pinkMoment(index)">
                                                     <svg class="iconfont" aria-hidden="true">

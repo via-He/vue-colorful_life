@@ -48,7 +48,7 @@
                                 <section>
                                     <header>
                                         <h2>精彩推荐</h2>
-                                        <span class="byline">Integer sit amet pede vel arcu aliquet pretium</span>
+                                        <span class="byline">多彩生活，多彩人生，从点滴记录开始~</span>
                                     </header>
 <!--                                    <a href="#" class="image full"><img src="../images/pic07.jpg" alt=""/></a>-->
                                     <div class="block">
@@ -64,7 +64,6 @@
                                                         </ul>
                                                     </router-link>
 
-                                                    <el-tag type="success">{{mom.channelName}}</el-tag>
                                                     <div class="line"></div>
                                                     <div class="demo-image__preview">
                                                         <a href="#" class="image full">
@@ -102,6 +101,8 @@
                                                             </div>
                                                         </template>
                                                     </div>
+                                                    <!--标签-->
+                                                    <p class="posted">来自频道：<el-tag type="success">{{mom.channelName}}</el-tag></p>
                                                     <el-row id="icon-group">
                                                         <span style="vertical-align: middle;display: flex" @click="pink(index)">
                                                             <svg class="iconfont" aria-hidden="true">
@@ -221,7 +222,6 @@
                 // this.isHide = false;    //点击onShow切换为false，显示为展开画面
             },
             onShow1(index,createId) {
-                const _this = this
                 this.getComment(createId);
                 this.moments[index].show1 = !this.moments[index].show1;
 
@@ -234,6 +234,7 @@
                 this.$axios.post("/comment/detail?createItemId="+createItemId).then(res =>{
                     let commentList = res.data.data
                     commentList.forEach((item,index) =>{
+                        //查询评论人
                         this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
                             item.userName  = res.data.data.userName
                             item.headImage = res.data.data.headImage
@@ -260,7 +261,7 @@
                     momentList.forEach((item, index) => {
                         item.isHide = true;
                         item.show1 = false;
-                        // console.log('sddddd',item.userId)
+                        // 查询发布人信息
                          this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
                              _this.user.userName = res.data.data.userName
                              _this.user.headImage = res.data.data.headImage

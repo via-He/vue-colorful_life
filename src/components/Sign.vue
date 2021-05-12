@@ -23,9 +23,7 @@
                             </a>
                         </div>
                         <!--标签-->
-                        <el-tag closable>
-                            {{life.channelName}}
-                        </el-tag>
+                        <p class="posted">来自频道：<el-tag type="success">{{life.channelName}}</el-tag></p>
                         <el-row id="icon-group">
                             <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">

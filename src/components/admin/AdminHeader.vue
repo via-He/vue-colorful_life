@@ -6,12 +6,12 @@
         <h1>多彩生活管理后台</h1>
         <nav class="links">
             <ul>
-                <li class="active"><a href="/admin">推荐管理</a></li>
-                <li><a href="/createAdmin">动态频道</a></li>
-                <li><a href="/user">用户管理</a></li>
-                <li><a href="/notice">公告管理</a></li>
-                <li><el-link v-show="!hasLogin" href="/login">登录</el-link></li>
-                <li><el-link v-show="hasLogin" @click="logout">退出</el-link></li>
+                <li><a href="/admin"><h1>推荐管理</h1></a></li>
+                <li><a href="/createAdmin"><h1>动态频道</h1></a></li>
+                <li><a href="/user"><h1>用户管理</h1></a></li>
+                <li><a href="/notice"><h1>公告管理</h1></a></li>
+                <li><el-link v-show="!hasLogin" href="/login"><h1>登录</h1></el-link></li>
+                <li><el-link v-show="hasLogin" @click="logout"><h1>退出</h1></el-link></li>
             </ul>
         </nav>
     </header>

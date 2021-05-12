@@ -65,6 +65,14 @@
                                                         <el-timeline-item :timestamp="channel.signUpdateTime"
                                                                           placement="top">
                                                             <el-card>
+                                                                <router-link :to="{path:'userDetail',query: {userId:channel.signUserId}}" style="text-decoration: none">
+                                                                    <ul class="style">
+                                                                        <li>
+                                                                            <img fit="cover" :src="'http://localhost:8880' + channel.headImage1" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                            <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{channel.userName1}}</span>&emsp;&emsp;的签到</p>
+                                                                        </li>
+                                                                    </ul>
+                                                                </router-link>
                                                                 <h4>签到标题 ：{{channel.title}}</h4>
                                                                 <hr>
                                                                 <p>内容 ：
@@ -79,6 +87,8 @@
                                                                     </el-image>
                                                                     </a>
                                                                 </div>
+                                                                <!--标签-->
+                                                                <p class="posted">来自频道：<el-tag type="success">{{channel.channelName}}</el-tag></p>
                                                                 <el-row id="icon-group">
                                                                     <span style="vertical-align: middle;display: flex" @click="pinkSign(index)">
                                                                         <svg class="iconfont" aria-hidden="true">
@@ -88,7 +98,7 @@
                                                                     <span style="vertical-align: middle;display: flex" @click="onShow1(index,channel.signId)">
                                                                         <svg class="iconfont" aria-hidden="true">
                                                                             <use xlink:href="#icon-pinglun1"></use>
-                                                                        </svg><span>{{channel.num}}</span>
+                                                                        </svg><span>{{channel.num1}}</span>
                                                                     </span>
                                                                 </el-row>
                                                                 <!--签到评论========================-->
@@ -97,15 +107,15 @@
 
                                                                         <div class="transition-box">
                                                                             <ul class="style">
-                                                                                <li v-for="com in comments">
+                                                                                <li v-for="com in comments1">
 
                                                                                     <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                                                     <p>{{com.userName}}</p>
                                                                                     <span style=" padding-left: 2em;">{{com.content}}</span>
                                                                                 </li></ul>
-                                                                            <el-row id="searchId">
+                                                                            <el-row id="searchId1">
                                                                                 <el-input type="text" v-model="comment"></el-input>
-                                                                                <el-button type="primary" id="comBtn" @click="submitSign(channel.signId)">评论</el-button>
+                                                                                <el-button type="primary" id="comBtn1" @click="submitSign(channel.signId)">评论</el-button>
                                                                             </el-row>
                                                                         </div>
                                                                     </div>
@@ -119,7 +129,14 @@
                                                         <el-timeline-item :timestamp="channel.createUpdateTime"
                                                                           placement="top">
                                                             <el-card class="box-card">
-                                                                <el-tag type="success">{{channel.channelName}}</el-tag>
+                                                                <router-link :to="{path:'userDetail',query: {userId:channel.createUserId}}" style="text-decoration: none">
+                                                                    <ul class="style">
+                                                                        <li>
+                                                                            <img fit="cover" :src="'http://localhost:8880' + channel.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                            <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{channel.userName}}</span>&emsp;&emsp;的瞬间</p>
+                                                                        </li>
+                                                                    </ul>
+                                                                </router-link>
                                                                 <div class="line"></div>
                                                                 <div class="demo-image__preview">
                                                                     <a href="#" class="image full">
@@ -128,7 +145,6 @@
                                                                                 :src="'http://localhost:8880' + channel.createMediaUrl"
                                                                                 alt=""/>
                                                                     </a>
-
                                                                 </div>
                                                                 <div id="example">
                                                                     <!-- 利用v-if…v-else切换 展开 和 收起 两个画面，template包裹多个元素 -->
@@ -163,21 +179,38 @@
                                                                     </template>
                                                                 </div>
                                                                 <!--标签-->
-                                                                <el-tag closable>
-                                                                    {{channel.channelName}}
-                                                                </el-tag>
+                                                                <p class="posted">来自频道：<el-tag type="success">{{channel.channelName}}</el-tag></p>
                                                                 <el-row id="icon-group1">
                                                                     <span style="vertical-align: middle;display: flex" @click="pinkMoment(index)">
                                                                         <svg class="iconfont" aria-hidden="true">
                                                                             <use xlink:href="#icon-dianzan"></use>
                                                                         </svg><span>{{channel.createPinkNum}}</span>
                                                                     </span>
-                                                                    <span style="vertical-align: middle;display: flex">
+                                                                    <span style="vertical-align: middle;display: flex" @click="onShow2(index,channel.createId)">
                                                                         <svg class="iconfont" aria-hidden="true">
                                                                             <use xlink:href="#icon-pinglun1"></use>
-                                                                        </svg><span></span>
+                                                                        </svg><span>{{channel.num}}</span>
                                                                     </span>
                                                                 </el-row>
+                                                                <!--瞬间评论========================-->
+                                                                <el-collapse-transition>
+                                                                    <div style="margin-top: 20px; height: 200px;" v-show="channel.show1" >
+
+                                                                        <div class="transition-box">
+                                                                            <ul class="style">
+                                                                                <li v-for="com in comments">
+
+                                                                                    <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                                    <p>{{com.userName}}</p>
+                                                                                    <span style=" padding-left: 2em;">{{com.content}}</span>
+                                                                                </li></ul>
+                                                                            <el-row id="searchId">
+                                                                                <el-input type="text" v-model="comment"></el-input>
+                                                                                <el-button type="primary" id="comBtn">评论</el-button>
+                                                                            </el-row>
+                                                                        </div>
+                                                                    </div>
+                                                                </el-collapse-transition>
                                                             </el-card>
                                                         </el-timeline-item>
                                                     </el-timeline>
@@ -232,8 +265,10 @@
                     isHide:'',
                     show1:''
                 },
-                commentNum:'',//评论次数
                 comment:'',//评论输入框
+                commentNum:'',
+                commentNum1:'',
+                comments1:{},//所有签到评论内容
                 comments:{},//所有评论内容
                 user:{
                     userName:'',
@@ -282,52 +317,53 @@
                 })
             },*/
             onShow1(index,signId) {
-                const _this = this
-                this.getComment(signId);
+                this.getComment1(signId);
                 this.channels[index].show1 = !this.channels[index].show1;
 
             },
-/*            getComment(createItemId){
-                this.$axios.post("/comment/detail?createItemId="+createItemId).then(res =>{
-                    let commentList = res.data.data
-                    commentList.forEach((item,index) =>{
-                        this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
-                            item.userName  = res.data.data.userName
+            onShow2(index,createId) {
+                this.getComment(createId);
+                this.channels[index].show1 = !this.channels[index].show1;
+
+            },
+            getComment(createItemId){
+                if (createItemId != null) {
+                    this.$axios.post("/comment/detail?createItemId=" + createItemId).then(res => {
+                        let commentList = res.data.data
+                        commentList.forEach((item, index) => {//查看评论人
+                            this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
+                                item.userName = res.data.data.userName
+                                item.headImage = res.data.data.headImage
+
+                            })
+                            item.userName = res.data.data.userName
                             item.headImage = res.data.data.headImage
 
                         })
-                        item.userName  = res.data.data.userName
-                        item.headImage = res.data.data.headImage
-                        /!*查询评论次数*!/
-                        this.$axios.post("/comment/commentNum?createItemId=" + item.createItemId).then(res =>{
-                            this.commentNum = res.data.data
-                            console.log("评论次数", this.commentNum)
-                            item.num = this.commentNum
-                        })
-                        item.num = this.commentNum
-
+                        this.comments = commentList
+                        console.log("查看评论内容", this.comments)
                     })
-                    this.comments = commentList
-                    console.log("查看评论内容",this.comments)
-                })
+                }
 
-            },*/
-            getComment(signId){
-                this.$axios.post("/comment/detail?signId="+signId).then(res =>{
-                    let commentList = res.data.data
-                    commentList.forEach((item,index) =>{
-                        this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
-                            item.userName  = res.data.data.userName
+            },
+            getComment1(signId){
+                if (signId != null) {
+                    this.$axios.post("/comment/detail?signId=" + signId).then(res => {
+                        let commentList = res.data.data
+                        commentList.forEach((item, index) => {
+                            this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
+                                item.userName = res.data.data.userName
+                                item.headImage = res.data.data.headImage
+
+                            })
+                            item.userName = res.data.data.userName
                             item.headImage = res.data.data.headImage
 
                         })
-                        item.userName  = res.data.data.userName
-                        item.headImage = res.data.data.headImage
-
+                        this.comments1 = commentList
+                        console.log("查看评论内容", this.comments1)
                     })
-                    this.comments = commentList
-                    console.log("查看评论内容",this.comments)
-                })
+                }
 
             },
             onShow: function (index) {
@@ -348,16 +384,40 @@
                 pageSize = _this.pageSize
                 console.log('----------------channelName', channelName)
                 _this.$axios.get('/listByChannelName', {params: {pageNum, pageSize, channelName}}).then(res => {
-                    console.log(res)
-                    console.log("channel查询内容集合")
                     let channelList = res.data.data.list;
                     channelList.forEach((item, index) => {
                         item.isHide = true;
+                        item.show1 = false;
+                        // 签到发布人
+                        if (item.signUserId != null) {
+                            this.$axios.get("/user/byId?userId=" + item.signUserId).then(res => {
+                                item.userName1 = res.data.data.userName
+                                item.headImage1 = res.data.data.headImage
+
+                            })
+                        }
+                        //瞬间发布人
+                        if (item.createUserId != null) {
+                            this.$axios.get("/user/byId?userId=" + item.createUserId).then(res => {
+                                item.userName = res.data.data.userName
+                                item.headImage = res.data.data.headImage
+
+                            })
+                        }
                         if (item.signId != null) {
                             /*查询评论次数*/
                             this.$axios.post("/comment/commentNum?signId=" + item.signId).then(res => {
+                                this.commentNum1 = res.data.data
+                                item.num1 =this.commentNum1
+                            })
+                        }
+                        item.num1 =this.commentNum1
+                        console.log("签到评论次数", item.num1)
+                        if (item.createId != null) {
+                            /*查询评论次数*/
+                            this.$axios.post("/comment/commentNum?createItemId=" + item.createId).then(res =>{
                                 this.commentNum = res.data.data
-                                console.log("评论次数", this.commentNum)
+                                console.log("shunjian评论次数", this.commentNum)
                                 item.num = this.commentNum
                             })
                         }
@@ -365,7 +425,7 @@
 
                     })
                     _this.channels = channelList;
-                    console.log(_this.channels)
+                    console.log(_this.channels,"所有频道动态")
                     // _this.channels = res.data.data.list
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
@@ -498,16 +558,16 @@
         padding: 1em 0em 1em 0em !important;
         border-top: 1px solid #ECECEC;
     }
-    #searchId{
+    #searchId,#searchId1{
         display:flex;
         justify-content: flex-start;
     }
-    #searchId >>> .el-input__inner{
+    #searchId,searchId1 >>> .el-input__inner{
         /*width: 70% !important;*/
         float: left;
 
     }
-    #comBtn{
+    #comBtn,#comBtn1{
         float: right;
         display:inline-block;
     }

@@ -4,38 +4,20 @@
         <div class="row">
             <div class="4u">
                 <section>
-                    <h2>Latest Posts</h2>
-                    <ul class="default">
-                        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
-                        <li><a href="#">Lorem ipsum consectetuer adipiscing</a></li>
-                        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
-                        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
-                        <li><a href="#">Maecenas vitae orci feugiat eleifend</a></li>
-                    </ul>
+                    <h2>关于多彩生活记</h2>
+
                 </section>
             </div>
             <div class="4u">
                 <section>
-                    <h2>Ultrices fringilla</h2>
-                    <ul class="default">
-                        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
-                        <li><a href="#">Lorem ipsum consectetuer adipiscing</a></li>
-                        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
-                        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
-                        <li><a href="#">Maecenas vitae orci feugiat eleifend</a></li>
-                    </ul>
+                    <h2>联系我：<a href="https://github.com/via-He">https://github.com/via-He</a></h2>
+
                 </section>
             </div>
             <div class="4u">
                 <section>
-                    <h2>Aenean elementum</h2>
-                    <ul class="default">
-                        <li><a href="#">Pellentesque lectus gravida blandit</a></li>
-                        <li><a href="#">Lorem ipsum consectetuer adipiscing</a></li>
-                        <li><a href="#">Phasellus nibh pellentesque congue</a></li>
-                        <li><a href="#">Cras vitae metus aliquam pharetra</a></li>
-                        <li><a href="#">Maecenas vitae orci feugiat eleifend</a></li>
-                    </ul>
+                    <h2>违法和不良信息投诉电话：4008353331-9 </h2>
+
                 </section>
             </div>
         </div>

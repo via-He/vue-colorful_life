@@ -3,7 +3,6 @@
         <el-timeline>
             <el-timeline-item :timestamp="mom.updateTime" v-for="(mom,index) in moments" icon="el-icon-time" placement="top">
                 <el-card class="box-card">
-                    <el-tag type="success">{{mom.channelName}}</el-tag>
                     <div class="line"></div>
                     <div class="demo-image__preview">
                         <a href="#" class="image full">
@@ -42,6 +41,8 @@
                             </div>
                         </template>
                     </div>
+                    <!--标签-->
+                    <p class="posted">来自频道：<el-tag type="success">{{channel.channelName}}</el-tag></p>
                     <el-row id="icon-group">
                             <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
@@ -51,7 +52,7 @@
                         <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-pinglun1" @click="comment"></use>
-                                </svg><p>432</p>
+                                </svg><p>{{mom.num}}</p>
                             </span>
                         <span>
                                 <i v-on:click="deleteMoment(mom.id)"><svg class="iconfont"

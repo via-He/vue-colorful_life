@@ -22,8 +22,8 @@
                                                 <el-timeline-item :timestamp="sign.updateTime"
                                                                   placement="top" v-for="(sign,index) in signs" >
                                                     <el-card>
+                                                        <span style="float: right">签到动态ID:{{sign.id}}</span>
                                                         <h4>标题 ：{{sign.title}}</h4>
-                                                        <i class="el-icon-delete" v-on:click="deleteSign(life.id)"></i>
                                                         <hr>
                                                         <p>内容 ：
                                                             {{sign.content}}
@@ -36,21 +36,25 @@
                                                             </el-image>
                                                         </div>
                                                         <!--标签-->
-                                                        <el-tag closable>
-                                                            {{sign.channelName}}
-                                                        </el-tag>
+                                                        <p class="posted">来自频道：<el-tag type="success">{{sign.channelName}}</el-tag></p>
                                                         <el-row id="icon-group1">
-                                                        <span class="icon1">
+                                                        <span style="vertical-align: middle;display: flex">
                                                         <svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-dianzan"></use>
                                                         </svg><span>{{sign.pinkNum}}</span>
-                                                        </span>
-                                                            <span class="icon2">
+                                                        </span >
+                                                            <span style="vertical-align: middle;display: flex">
                                                         <svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-pinglun1"></use>
                                                         </svg><span></span>
-                                                        </span>
-                                                            <span class="icon3">
+                                                        </span >
+                                                            <span style="vertical-align: middle;display: flex">
+                                                                 <svg class="iconfont" aria-hidden="true">
+                                                            <use xlink:href="#icon-mengya"></use>
+                                                        </svg>
+
+                                                            </span>
+                                                            <span style="vertical-align: middle;display: flex">
                                                         <i v-on:click="deleteSign(sign.id)"><svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-shanchu3"></use>
                                                         </svg></i>
@@ -73,6 +77,15 @@
                                             <el-timeline-item :timestamp="mom.updateTime" v-for="(mom,index) in moments"
                                                               icon="el-icon-time" placement="top">
                                                 <el-card class="box-card">
+                                                    <span style="float: right">瞬间动态ID:{{mom.id}}</span>
+                                                    <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
+                                                        <ul class="style">
+                                                            <li>
+                                                                <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
+                                                            </li>
+                                                        </ul>
+                                                    </router-link>
                                                     <el-tag type="success">{{mom.channelName}}</el-tag>
                                                     <div class="line"></div>
                                                     <div class="demo-image__preview">
@@ -111,23 +124,47 @@
                                                             </div>
                                                         </template>
                                                     </div>
+                                                    <!--标签-->
+                                                    <p class="posted">来自频道：<el-tag type="success">{{mom.channelName}}</el-tag></p>
                                                     <el-row id="icon-group">
-                                                        <span class="icon1">
+                                                        <span style="vertical-align: middle;display: flex">
                                                         <svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-dianzan"></use>
                                                         </svg><span>{{mom.pinkNum}}</span>
                                                         </span>
-                                                        <span class="icon2">
+                                                        <span style="vertical-align: middle;display: flex" @click="onShow1(index,mom.id)">
                                                         <svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-pinglun1"></use>
-                                                        </svg><span></span>
+                                                        </svg><span>{{mom.num}}</span>
                                                         </span>
-                                                        <span class="icon3">
+                                                        <span @click="attract(mom.id)" style="vertical-align: middle;display: flex">
+                                                                <svg class="iconfont" aria-hidden="true">
+                                                            <use xlink:href="#icon-mengya"></use>
+                                                        </svg>
+                                                            </span>
+                                                        <span style="vertical-align: middle;display: flex">
                                                         <i v-on:click="deleteMoment(mom.id)"><svg class="iconfont" aria-hidden="true">
                                                             <use xlink:href="#icon-shanchu3"></use>
                                                         </svg></i>
                                                         </span>
                                                     </el-row>
+                                                    <el-collapse-transition>
+                                                        <div style="margin-top: 20px; height: 200px;"
+                                                             v-show="mom.show1">
+                                                            <div class="transition-box">
+                                                                <ul class="style">
+                                                                    <li v-for="com in comments">
+                                                                        <img fit="cover"
+                                                                             :src="'http://localhost:8880' + com.headImage"
+                                                                             class="el-avatar--circle"
+                                                                             style="width: 30px;height: 30px" alt=""/>
+                                                                        <p>{{com.userName}}</p>
+                                                                        <span style=" padding-left: 2em;">{{com.content}}</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </el-collapse-transition>
                                                 </el-card>
                                             </el-timeline-item>
                                         </el-timeline>
@@ -163,16 +200,62 @@
         inject: ['reload'],
         data() {
             return {
-
+                commentNum:'',
+                comments:{},
+                user:{
+                    userName:'',
+                    headImage:''
+                },
+                hasLogin:false,
                 activeName: 'first',
                 signs: {},
-                moments: {},
+                moments: {
+                    isHide:'',
+                    show1:''
+                },
                 pageNum: 1,
                 pageSize: 5,
                 total: 0
             };
         },
         methods: {
+            onShow1(index,createId) {
+                const _this = this
+                this.getComment(createId);
+                this.moments[index].show1 = !this.moments[index].show1;
+
+            },
+            getComment(createItemId){
+                this.$axios.post("/comment/detail?createItemId="+createItemId).then(res =>{
+                    let commentList = res.data.data
+                    commentList.forEach((item,index) =>{
+                        //查询评论人
+                        this.$axios.get("/user/byId?userId=" + item.reviewer).then(res => {
+                            item.userName  = res.data.data.userName
+                            item.headImage = res.data.data.headImage
+
+                        })
+                        item.userName  = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+
+
+                    })
+                    this.comments = commentList
+                    console.log("查看评论内容",this.comments)
+                })
+
+            },
+            attract(createItemId){
+                this.$axios.post("/reco/admin/add?createItemId="+createItemId).then(res =>{
+                    this.$alert('推荐成功,前往推荐页面看看吧！', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            this.reload("/admin");
+                        }
+                    });
+                })
+
+            },
             onShow: function (index) {
                 this.moments[index].isHide = false;
                 // this.isHide = false;    //点击onShow切换为false，显示为展开画面
@@ -206,6 +289,21 @@
                     console.log("瞬间查询内容集合")
                     momentList.forEach((item, index) => {
                         item.isHide = true;
+                        item.show1 = false;
+                        // console.log('sddddd',item.userId)
+                        this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
+                            item.userName = res.data.data.userName
+                            item.headImage = res.data.data.headImage
+
+                        })
+                        item.userName = res.data.data.userName
+                        item.headImage = res.data.data.headImage
+                        this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
+                            this.commentNum = res.data.data
+                            console.log("评论次数", this.commentNum)
+                            item.num = this.commentNum
+                        })
+                        item.num = this.commentNum
                     })
                     _this.moments = momentList;
                     console.log(_this.channels)
@@ -276,6 +374,81 @@
 </script>
 
 <style scoped>
+    /*********************************************************************************/
+    /* Nav                                                                           */
+    /*********************************************************************************/
+
+    #nav ul {
+        margin: 0;
+    }
+
+    #nav > ul > li {
+        display: inline-block;
+    }
+
+    #nav > ul > li:last-child {
+        padding-right: 0;
+    }
+
+    #nav > ul > li > a, #nav > ul > li > span {
+        display: block;
+        padding: 1em 1.5em;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 200;
+        font-size: 1.3em;
+        outline: 0;
+        color: rgba(255, 255, 255, .7);
+    }
+
+
+    #nav > ul > li > a:hover {
+        color: #FFF !important;
+    }
+
+    #nav li.active a {
+        background: none;
+        border-radius: 40px;
+        border: 2px solid;
+        border-color: rgba(255,255,255,.8);
+        color: #FFF;
+    }
+
+    #nav > ul > li > ul {
+        display: none;
+    }
+
+    ul.style li {
+        margin: 0;
+        padding: 1em 0em 1em 0em !important;
+        border-top: 1px solid #ECECEC;
+    }
+    #searchId{
+        display:flex;
+        justify-content: flex-start;
+    }
+    #searchId >>> .el-input__inner{
+        /*width: 70% !important;*/
+        float: left;
+
+    }
+    #comBtn{
+        float: right;
+        display:inline-block;
+    }
+    .transition-box {
+        margin-bottom: 10px;
+        width: 610px;
+        /*height: 100px;*/
+        border-radius: 4px;
+        background-color: #75775E;
+        background-image: linear-gradient(to bottom right,#A0BBC6 , #C9DEC1);
+        color: #fff;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        margin-right: 20px;
+    }
     .icon {
         width: 1em;
         height: 1em;

@@ -3,7 +3,7 @@
             <section>
                 <header>
                     <h2>完善资料</h2>
-                    <span class="byline">Integer sit amet pede vel arcu aliquet pretium</span>
+                    <span class="byline">世界因你而美丽，生活因你而精彩~</span>
                 </header>
                 <div style="margin: 20px 0;"></div>
 
