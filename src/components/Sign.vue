@@ -33,7 +33,7 @@
                             <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
                                     <use xlink:href="#icon-pinglun1"></use>
-                                </svg><span>34</span>
+                                </svg><span>{{life.num}}</span>
                             </span>
                             <span style="vertical-align: middle;display: flex">
                                 <i v-on:click="deleteSign(life.id)"><svg class="iconfont"
@@ -74,7 +74,7 @@
                 pageNum: 1,
                 total: 0,
                 pageSize: 5,
-
+                commentNum1:''
             }
         },
         methods: {
@@ -88,7 +88,16 @@
                     console.log(res)
                     console.log("photo集合")
                     console.log(res.data.data.list)
-                    _this.lifes = res.data.data.list
+                    const signs = res.data.data.list
+                    signs.forEach((item,index) =>{
+                        this.$axios.post("/comment/commentNum?signId=" + item.id).then(res =>{
+                            this.commentNum1 = res.data.data
+                            console.log("评论次数", this.commentNum1)
+                            item.num = this.commentNum1
+                        })
+                        item.num = this.commentNum1
+                    })
+                    _this.lifes = signs
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
                     _this.total = res.data.data.total

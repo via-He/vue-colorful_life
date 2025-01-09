@@ -42,7 +42,7 @@
                         </template>
                     </div>
                     <!--标签-->
-                    <p class="posted">来自频道：<el-tag type="success">{{channel.channelName}}</el-tag></p>
+                    <p class="posted">来自频道：<el-tag type="success">{{mom.channelName}}</el-tag></p>
                     <el-row id="icon-group">
                             <span style="vertical-align: middle;display: flex">
                                 <svg class="iconfont" aria-hidden="true">
@@ -85,6 +85,7 @@
         inject: ['reload'],
         data() {
             return {
+                commentNum:'',
                 isHide: true, //初始值为true，显示为折叠画面
                 moments: {},
                 pageNum: 1,
@@ -111,6 +112,12 @@
                     let momentList = res.data.data.list;
                     momentList.forEach((item, index) => {
                         item.isHide = true;
+                        this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
+                            this.commentNum = res.data.data
+                            console.log("评论次数", this.commentNum)
+                            item.num = this.commentNum
+                        })
+                        item.num = this.commentNum
                     })
                     _this.moments = momentList;
                     console.log('瞬间分页列表', _this.moments);

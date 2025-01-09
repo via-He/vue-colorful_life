@@ -36,7 +36,7 @@
                                                 <div class="line"></div>
                                                 <div class="demo-image__preview">
                                                     <a href="#" class="image full">
-                                                        <el-image :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                        <el-image :src="'http://localhost:8880' + mom.mediaUrl" style="width: 600px;height: 370px" fit="cover" alt=""/>
                                                     </a>
 
                                                 </div>
@@ -144,6 +144,7 @@
     export default {
         name: "Admin",
         components: {AdminHeader, Header, Aside, Bottom},
+        inject: ['reload'],
         data() {
             return {
                 commentNum:'',
@@ -242,14 +243,15 @@
             comment(){
 
             },
-            deleteMoment(createItemId) {
+            deleteMoment(id) {
+                console.log("删除的id",id)
                 const _this = this
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    _this.$axios.get("/reco/admin/delete?createItemId=" + createItemId).then(res => {
+                    _this.$axios.get("/reco/admin/delete?id=" + id).then(res => {
                         this.$alert('删除成功', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {

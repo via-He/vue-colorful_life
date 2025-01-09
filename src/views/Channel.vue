@@ -80,8 +80,7 @@
                                                                 </p>
                                                                 <div class="demo-image__preview">
                                                                     <a href="#" class="image full">
-                                                                    <el-image style="width: 600px;height: 400px" v-show="!(channel.signMediaUrl === '')"
-                                                                              class="img full"
+                                                                    <el-image style="width: 600px;height: 370px" v-show="!(channel.signMediaUrl === '')" fit="cover"
                                                                               :src="'http://localhost:8880' + channel.signMediaUrl"
                                                                               >
                                                                     </el-image>
@@ -361,7 +360,7 @@
 
                         })
                         this.comments1 = commentList
-                        console.log("查看评论内容", this.comments1)
+                        console.log("查看签到评论内容", this.comments1)
                     })
                 }
 
@@ -382,7 +381,6 @@
                 const _this = this
                 let channelName = _this.channelName
                 pageSize = _this.pageSize
-                console.log('----------------channelName', channelName)
                 _this.$axios.get('/listByChannelName', {params: {pageNum, pageSize, channelName}}).then(res => {
                     let channelList = res.data.data.list;
                     channelList.forEach((item, index) => {
@@ -425,8 +423,7 @@
 
                     })
                     _this.channels = channelList;
-                    console.log(_this.channels,"所有频道动态")
-                    // _this.channels = res.data.data.list
+                    console.log(_this.channels,"所有频道动态----------------------------------------")
                     _this.pageNum = res.data.data.pageNum
                     _this.pageSize = res.data.data.pageSize
                     _this.total = res.data.data.total

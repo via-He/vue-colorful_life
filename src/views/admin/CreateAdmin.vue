@@ -89,9 +89,8 @@
                                                     <el-tag type="success">{{mom.channelName}}</el-tag>
                                                     <div class="line"></div>
                                                     <div class="demo-image__preview">
-                                                        <a href="#" class="image full">
-                                                            <el-image :src="'http://localhost:8880' + mom.mediaUrl"
-                                                                      alt=""/>
+                                                        <a href="#" >
+                                                            <el-image :src="'http://localhost:8880' + mom.mediaUrl" fit="cover" style="width: 600px;height: 370px" alt=""/>
                                                         </a>
 
                                                     </div>

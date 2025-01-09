@@ -179,6 +179,7 @@
         inject: ['reload'],
         data(){
             return{
+                isHide: true, //初始值为true，显示为折叠画面
                 role:'',
                 comment:'',
                 commentNum:'',
@@ -243,7 +244,6 @@
                         item.userName  = res.data.data.userName
                         item.headImage = res.data.data.headImage
 
-
                     })
                     this.comments = commentList
                     console.log("查看评论内容",this.comments)
@@ -256,26 +256,28 @@
                 pageSize = _this.pageSize
                 _this.$axios.get("/reco/listAll",
                     {params: {pageNum, pageSize}}).then(res => {
-                    console.log(res)
                     let momentList = res.data.data.list;
-                    momentList.forEach((item, index) => {
+                    console.log(momentList,"循环的list")
+                    momentList.forEach(item => {
                         item.isHide = true;
                         item.show1 = false;
                         // 查询发布人信息
-                         this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
-                             _this.user.userName = res.data.data.userName
-                             _this.user.headImage = res.data.data.headImage
-                             item.userName = _this.user.userName
-                             item.headImage = _this.user.headImage
-                         })
-                        item.userName = _this.user.userName
-                        item.headImage = _this.user.headImage
+                        this.$axios.get("/user/byId?userId=" + item.userId).then(res => {
+                            _this.user.userName = res.data.data.userName
+                            _this.user.headImage = res.data.data.headImage
+                            item.userName = _this.user.userName
+                            item.headImage = _this.user.headImage
+                            console.log("添加后的momentLlist",momentList)
+                        })
+                        /* item.userName = _this.user.userName
+                         item.headImage = _this.user.headImage*/
                         this.$axios.post("/comment/commentNum?createItemId=" + item.id).then(res =>{
                             this.commentNum = res.data.data
                             console.log("评论次数", this.commentNum)
                             item.num = this.commentNum
                         })
                         item.num = this.commentNum
+                        return item
                     })
                     _this.moments = momentList;
                     console.log('推荐分页列表', _this.moments);

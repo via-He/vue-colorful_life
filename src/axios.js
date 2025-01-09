@@ -13,15 +13,9 @@ axios.interceptors.request.use(config =>{
 
 axios.interceptors.response.use(response =>{
     let res = response.data;
-    console.log("============");
-    console.log('全局数据：',res);
-    console.log("===========");
-
-
     if (res.status === 10000){
         return response
     }else {
-
         Element.Message.error(res.msg,{duration: 1 *1000})
         return Promise.reject(response.data.msg)
     }
