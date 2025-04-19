@@ -17,7 +17,7 @@
                             <a href="#" class="image full">
                             <el-image fit="cover" style="width: 650px; height: 370px" v-show="!(life.mediaUrl == '')"
                                       class="img full"
-                                      :src="'http://localhost:8880' + life.mediaUrl"
+                                      :src="`${process.env.VUE_APP_IMAGE_BASE}` + life.mediaUrl"
                                       >
                             </el-image>
                             </a>

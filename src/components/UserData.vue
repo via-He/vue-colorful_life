@@ -9,7 +9,7 @@
 
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="头像" prop="headImage">
-                        <el-image v-if="ruleForm.headImage" shape="square" fit="cover" :size="100" style="width: 150px;height: 150px;" :src="'http://localhost:8880' + ruleForm.headImage"/>
+                        <el-image v-if="ruleForm.headImage" shape="square" fit="cover" :size="100" style="width: 150px;height: 150px;" :src="`${process.env.VUE_APP_IMAGE_BASE}` + ruleForm.headImage"/>
                         <i v-else class="avatar-uploader-icon"></i>
                         <el-upload v-model="ruleForm.headImage"
                                    action="http://localhost:8880/upload"

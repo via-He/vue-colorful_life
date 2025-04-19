@@ -40,7 +40,7 @@
                         <span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;
                         累计签到天数：&emsp;<span style="color: #29ac9b;font-family: Constantia;font-size: large">{{sign.signNum}}</span>
                     </p>
-                    <el-image fit="cover" :src="'http://localhost:8880' + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
+                    <el-image fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + sign.headImage" class="el-avatar"  style="width: 60px;height: 60px" alt=""/>
                     </router-link>
                     <p class="text">{{sign.signature}}</p>
                 </li>

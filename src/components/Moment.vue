@@ -6,7 +6,7 @@
                     <div class="line"></div>
                     <div class="demo-image__preview">
                         <a href="#" class="image full">
-                            <el-image fit="cover" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                            <el-image fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.mediaUrl" alt=""/>
                         </a>
 
                     </div>

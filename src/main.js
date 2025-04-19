@@ -25,3 +25,5 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+console.log('API Base:', process.env.VUE_APP_API_BASE);

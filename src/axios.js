@@ -3,7 +3,7 @@ import router from './router'
 import {arrayFindIndex} from "element-ui/src/utils/util";
 import Element from 'element-ui'
 
-axios.defaults.baseURL="http://localhost:8880"
+axios.defaults.baseURL=process.env.VUE_APP_API_BASE
 
 
 //前置拦截

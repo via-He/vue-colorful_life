@@ -28,7 +28,7 @@
                                                 <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
                                                     <ul class="style">
                                                         <li>
-                                                            <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                            <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                             <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
                                                         </li>
                                                     </ul>
@@ -36,7 +36,7 @@
                                                 <div class="line"></div>
                                                 <div class="demo-image__preview">
                                                     <a href="#" class="image full">
-                                                        <el-image :src="'http://localhost:8880' + mom.mediaUrl" style="width: 600px;height: 370px" fit="cover" alt=""/>
+                                                        <el-image :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.mediaUrl" style="width: 600px;height: 370px" fit="cover" alt=""/>
                                                     </a>
 
                                                 </div>
@@ -98,7 +98,7 @@
                                                             <ul class="style">
                                                                 <li v-for="com in comments">
                                                                     <img fit="cover"
-                                                                         :src="'http://localhost:8880' + com.headImage"
+                                                                         :src="`${process.env.VUE_APP_IMAGE_BASE}` + com.headImage"
                                                                          class="el-avatar--circle"
                                                                          style="width: 30px;height: 30px" alt=""/>
                                                                     <p>{{com.userName}}</p>

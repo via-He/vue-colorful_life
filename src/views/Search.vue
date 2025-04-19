@@ -33,7 +33,7 @@
                                                 <router-link :to="{path:'userDetail',query: {userId:sign.userId}}" style="text-decoration: none">
                                                     <ul class="style">
                                                         <li>
-                                                            <img fit="cover" :src="'http://localhost:8880' + sign.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                            <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + sign.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                             <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{sign.userName}}</span>&emsp;&emsp;的签到</p>
                                                         </li>
                                                     </ul>
@@ -47,7 +47,7 @@
                                                 <div class="demo-image__preview">
                                                     <el-image v-show="!(sign.mediaUrl == '')"
                                                               class="img full"
-                                                              :src="'http://localhost:8880' + sign.mediaUrl"
+                                                              :src="`${process.env.VUE_APP_IMAGE_BASE}` + sign.mediaUrl"
                                                     >
                                                     </el-image>
                                                 </div>
@@ -87,7 +87,7 @@
                                                 <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
                                                     <ul class="style">
                                                         <li>
-                                                            <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                            <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                             <p class="posted" style="margin-bottom: 0 !important;"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
                                                         </li>
                                                     </ul>
@@ -95,7 +95,7 @@
                                                 <div class="line"></div>
                                                 <div class="demo-image__preview">
                                                     <a href="#" class="image full">
-                                                        <el-image :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                        <el-image :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.mediaUrl" alt=""/>
                                                     </a>
 
                                                 </div>
@@ -168,7 +168,7 @@
                                                 累计签到天数：&emsp;<span
                                                     style="color: #29ac9b;font-family: Constantia;font-size: large">{{user.signNum}}</span>
                                             </p>
-                                            <el-image fit="cover" :src="'http://localhost:8880' + user.headImage"
+                                            <el-image fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + user.headImage"
                                                       class="el-avatar" style="width: 60px;height: 60px" alt=""/>
                                             <p class="text">{{user.signature}}</p>
                                             </router-link>

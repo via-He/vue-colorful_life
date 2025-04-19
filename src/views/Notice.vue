@@ -17,7 +17,7 @@
                             <div class="block" style="margin-top: 10px">
                                 <a href="/personal">
                                     <el-image class="el-avatar--circle" fit="cover" style="height: 70px; width: 70px"
-                                              :src="'http://localhost:8880' + user.headerImg"/>
+                                              :src="`${process.env.VUE_APP_IMAGE_BASE}` + user.headerImg"/>
                                 </a>
                                 <div><a href="#" style="color: #FFF;text-decoration:none;" >{{user.userName}}</a></div>
                             </div>

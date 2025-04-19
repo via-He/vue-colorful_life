@@ -14,7 +14,7 @@
                         <div class="block" style="margin-top: 10px">
                             <a href="/personal">
                                 <el-image class="el-avatar--circle" fit="cover" style="height: 70px; width: 70px"
-                                          :src="'http://localhost:8880' + curuser.headerImg"/>
+                                          :src="`${process.env.VUE_APP_IMAGE_BASE}` + curuser.headerImg"/>
                             </a>
                             <div><a href="#" style="color: #FFF;text-decoration:none;" >{{curuser.userName}}</a></div>
                         </div>
@@ -58,7 +58,7 @@
                                                     <router-link :to="{path:'userDetail',query: {userId:mom.userId}}" style="text-decoration: none">
                                                         <ul class="style">
                                                             <li>
-                                                                <img fit="cover" :src="'http://localhost:8880' + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                                 <p class="posted"><span style="color: #2a2f27">{{mom.userName}}</span>&emsp;&emsp;的瞬间</p>
                                                             </li>
                                                         </ul>
@@ -67,7 +67,7 @@
                                                     <div class="line"></div>
                                                     <div class="demo-image__preview">
                                                         <a href="#" class="image full">
-                                                            <el-image style="height: 370px;width: 630px" fit="cover" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                            <el-image style="height: 370px;width: 630px" fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.mediaUrl" alt=""/>
                                                         </a>
                                                     </div>
 
@@ -122,7 +122,7 @@
                                                                     <ul class="style">
                                                                     <li v-for="com in comments">
 
-                                                                        <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                        <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                                         <p>{{com.userName}}</p>
                                                                         <span style=" padding-left: 2em;">{{com.content}}</span>
                                                                     </li></ul>

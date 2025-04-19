@@ -19,7 +19,7 @@
                         <el-aside id="sidebar" class="4u">
                             <el-card>
                                 <el-image shape="square" :size="100" style="width: 150px;height: 150px;" fit="cover"
-                                     :src="'http://localhost:8880' + user.headImage"/>
+                                     :src="`${process.env.VUE_APP_IMAGE_BASE}` + user.headImage"/>
 
                             </el-card>
                         </el-aside>
@@ -43,7 +43,7 @@
                                             <div class="demo-image__preview">
                                                 <el-image style="height: 370px;width: 630px" fit="cover" v-show="!(sign.mediaUrl == '')"
                                                           class="img full"
-                                                          :src="'http://localhost:8880' + sign.mediaUrl"
+                                                          :src="`${process.env.VUE_APP_IMAGE_BASE}` + sign.mediaUrl"
                                                 >
                                                 </el-image>
                                             </div>
@@ -74,7 +74,7 @@
                                             <div class="line"></div>
                                             <div class="demo-image__preview">
                                                 <a href="#" class="image full">
-                                                    <el-image fit="cover" style="height: 370px;width: 630px" :src="'http://localhost:8880' + mom.mediaUrl" alt=""/>
+                                                    <el-image fit="cover" style="height: 370px;width: 630px" :src="`${process.env.VUE_APP_IMAGE_BASE}` + mom.mediaUrl" alt=""/>
                                                 </a>
 
                                             </div>
@@ -130,7 +130,7 @@
                                                         <ul class="style">
                                                             <li v-for="com in comments">
 
-                                                                <img fit="cover" :src="'http://localhost:8880' + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
+                                                                <img fit="cover" :src="`${process.env.VUE_APP_IMAGE_BASE}` + com.headImage" class="el-avatar--circle"  style="width: 30px;height: 30px" alt=""/>
                                                                 <p>{{com.userName}}</p>
                                                                 <span style=" padding-left: 2em;">{{com.content}}</span>
                                                             </li></ul>
