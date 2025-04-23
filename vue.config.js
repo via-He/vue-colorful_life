@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 module.exports = {
     css: {
-        requireModuleExtension: true
+        //requireModuleExtension: true
     },
     configureWebpack:{
         plugins: [
